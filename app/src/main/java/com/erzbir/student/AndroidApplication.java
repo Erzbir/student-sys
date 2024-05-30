@@ -1,0 +1,20 @@
+package com.erzbir.student;
+
+import android.app.Application;
+import com.erzbir.student.application.DefaultApplication;
+import com.erzbir.student.dao.AppDatabase;
+
+/**
+ * @author Erzbir
+ * @Data: 2024/5/29
+ */
+public class AndroidApplication extends Application {
+    public static final AndroidApplication INSTANCE = new AndroidApplication();
+    public final com.erzbir.student.application.Application APP = new DefaultApplication();
+    public AppDatabase DB;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+    }
+}

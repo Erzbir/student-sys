@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_weight="1"
+              tools:context=".view.MainActivity">
+
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="100dp"
+                  android:layout_marginStart="50dp"
+                  android:layout_marginEnd="50dp"
+                  android:layout_marginTop="50dp"
+                  android:orientation="vertical"
+                  android:background="@drawable/background">
+
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:gravity="center"
+                  android:text="总资产"
+        />
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="总资产"
+                android:gravity="center"
+                android:id="@+id/tv_total"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="100dp"
+                  android:layout_marginStart="50dp"
+                  android:layout_marginEnd="50dp"
+                  android:layout_marginBottom="20dp"
+                  android:background="@drawable/background">
+        <LinearLayout android:layout_width="0dp"
+                      android:layout_height="match_parent"
+                      android:orientation="vertical"
+                      android:layout_weight="0.5">
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:gravity="center"
+                      android:text="总收入"
+            />
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="总收入"
+                    android:gravity="center"
+                    android:id="@+id/tv_totalIncome"/>
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="0dp"
+                      android:layout_height="match_parent"
+                      android:orientation="vertical"
+                      android:layout_weight="0.5">
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:gravity="center"
+                      android:text="总支出"
+            />
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="总支出"
+                    android:gravity="center"
+                    android:id="@+id/tv_totalPay"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginStart="10dp"
+                  android:layout_marginEnd="10dp">
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginTop="20dp"
+                      android:layout_marginBottom="20dp"
+                      android:layout_marginStart="20dp"
+                      android:layout_marginEnd="20dp"
+                      android:orientation="vertical">
+            <Button
+                    android:text="添加账单"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/bt_addBill"/>
+            <Button
+                    android:text="明细"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/bt_detail"/>
+            <Button
+                    android:text="设置"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/bt_setting"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
