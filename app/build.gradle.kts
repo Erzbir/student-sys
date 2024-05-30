@@ -96,6 +96,7 @@ dependencies {
     runtimeOnly(project(":dispatcher-core"))
 
     implementation("cn.hutool:hutool-core:5.8.27")
+    implementation("cn.hutool:hutool-json:5.8.27")
 
     implementation("org.kohsuke:github-api:1.318")
 //    implementation("com.squareup.okhttp3:okhttp:4.12.0")

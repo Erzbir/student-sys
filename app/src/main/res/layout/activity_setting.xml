@@ -7,18 +7,27 @@
               android:layout_weight="1"
               tools:context=".view.SettingActivity">
     <Button
-            android:text="修改密码"
+            android:id="@+id/b_changePassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/bt_changeAccess"/>
+            android:text="@string/change_password"
+            style="@style/ButtonStyle"
+            android:layout_marginTop="24dp"
+    />
     <Button
-            android:text="备份"
+            android:id="@+id/b_about"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/bt_backup"/>
+            android:text="@string/about"
+            style="@style/ButtonStyle"
+            android:layout_marginTop="15dp"
+    />
     <Button
-            android:text="关于"
+            android:id="@+id/b_cancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/bt_about"/>
+            android:text="@string/cancel"
+            style="@style/ButtonStyle"
+            android:layout_marginTop="15dp"
+    />
 </LinearLayout>

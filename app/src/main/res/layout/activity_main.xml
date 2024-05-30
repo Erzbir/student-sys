@@ -1,99 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_weight="1"
-              tools:context=".view.MainActivity">
-
-
-    <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="100dp"
-                  android:layout_marginStart="50dp"
-                  android:layout_marginEnd="50dp"
-                  android:layout_marginTop="50dp"
-                  android:orientation="vertical"
-                  android:background="@drawable/background">
-
-        <TextView android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:gravity="center"
-                  android:text="总资产"
-        />
-        <TextView
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="总资产"
-                android:gravity="center"
-                android:id="@+id/tv_total"/>
-    </LinearLayout>
-    <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="100dp"
-                  android:layout_marginStart="50dp"
-                  android:layout_marginEnd="50dp"
-                  android:layout_marginBottom="20dp"
-                  android:background="@drawable/background">
-        <LinearLayout android:layout_width="0dp"
-                      android:layout_height="match_parent"
-                      android:orientation="vertical"
-                      android:layout_weight="0.5">
-            <TextView android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:gravity="center"
-                      android:text="总收入"
-            />
-            <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="总收入"
-                    android:gravity="center"
-                    android:id="@+id/tv_totalIncome"/>
-        </LinearLayout>
+                android:padding="16dp"
+                android:background="@color/lightGray">
 
-        <LinearLayout android:layout_width="0dp"
-                      android:layout_height="match_parent"
-                      android:orientation="vertical"
-                      android:layout_weight="0.5">
-            <TextView android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:gravity="center"
-                      android:text="总支出"
-            />
-            <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="总支出"
-                    android:gravity="center"
-                    android:id="@+id/tv_totalPay"/>
-        </LinearLayout>
+    <!-- 顶部背景图 -->
+    <ImageView
+            android:id="@+id/backgroundImage"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/logo"
+            android:layout_alignParentTop="true"/>
+    <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/student_management_system"
+            style="@style/TitleText"
+            android:textColor="@color/black"
+            android:layout_marginTop="24dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/backgroundImage" />
+    <TextView
+            android:id="@+id/tv_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/total_students_0"
+            style="@style/SubtitleText"
+            android:layout_below="@id/tv_title"
+            android:layout_centerHorizontal="true" />
+    <LinearLayout
+            android:id="@+id/ll_majors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@id/tv_total"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:layout_marginTop="16dp"
+            android:elevation="4dp"
+            android:clipToPadding="false">
     </LinearLayout>
-    <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_marginStart="10dp"
-                  android:layout_marginEnd="10dp">
-        <LinearLayout android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:layout_marginTop="20dp"
-                      android:layout_marginBottom="20dp"
-                      android:layout_marginStart="20dp"
-                      android:layout_marginEnd="20dp"
-                      android:orientation="vertical">
-            <Button
-                    android:text="添加账单"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/bt_addBill"/>
-            <Button
-                    android:text="明细"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/bt_detail"/>
-            <Button
-                    android:text="设置"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/bt_setting"/>
-        </LinearLayout>
-    </LinearLayout>
-</LinearLayout>
+
+    <Button
+            android:id="@+id/b_manage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/manage_students"
+            style="@style/ButtonStyle"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="16dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp" />
+
+</RelativeLayout>

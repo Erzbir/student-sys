@@ -36,8 +36,7 @@ public class SQLiteStudentContainer implements StudentContainer {
     @Override
     public void remove(Long key) {
         studentMap.remove(key);
-        Student student = new Student();
-        student.setId(key);
+        Student student = new Student.Builder().id(key).build();
         CompletableFuture.runAsync(() -> studentDao.delete(student));
     }
 

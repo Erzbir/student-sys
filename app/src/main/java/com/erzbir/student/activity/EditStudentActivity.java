@@ -19,14 +19,13 @@ import com.erzbir.student.view.MainActivity;
  * @Data: 2024/5/29
  */
 public class EditStudentActivity extends AppCompatActivity {
-    private Student editedStudent;
-    private Spinner sp_type;
+    private Student student;
+    private Spinner sp_gender;
     private EditText et_name;
-    private EditText et_money;
-    private EditText et_time;
-    private EditText et_detail;
-    private Button bt_confirm;
-    private Button bt_del;
+    private EditText et_id;
+    private EditText et_grade;
+    private EditText et_major;
+    private Button b_save;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,20 +35,19 @@ public class EditStudentActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        setContentView(R.layout.activity_edit);
+        setContentView(R.layout.activity_student_detail);
         et_name = findViewById(R.id.et_name);
-        et_money = findViewById(R.id.et_money);
-        et_detail = findViewById(R.id.et_detail);
-        et_time = findViewById(R.id.et_time);
-        sp_type = findViewById(R.id.sp_type);
-        bt_confirm = findViewById(R.id.bt_confirm);
-        bt_del = findViewById(R.id.bt_del);
+        sp_gender = findViewById(R.id.sp_gender);
+        et_id = findViewById(R.id.et_id);
+        et_grade = findViewById(R.id.et_grade);
+        et_major = findViewById(R.id.et_major);
+        b_save = findViewById(R.id.b_save);
         initFromExtra();
     }
 
     private void initFromExtra() {
-        editedStudent = getIntent().getSerializableExtra("stu", Student.class);
-        et_name.setText(editedStudent.getName());
+        student = getIntent().getSerializableExtra("stu", Student.class);
+        et_name.setText(student.getName());
     }
 
     @Override
@@ -63,26 +61,25 @@ public class EditStudentActivity extends AppCompatActivity {
     }
 
     private void initOnClickCallback() {
-        setDeleteOnClick();
+//        setDeleteOnClick();
         setConfirmOnClick();
     }
 
-    private void setDeleteOnClick() {
-        bt_del.setOnClickListener(v -> {
-            StudentManageComponent studentManageComponent = AndroidApplication.INSTANCE.APP.getComponent(StudentManageComponent.class);
-            studentManageComponent.remove(editedStudent);
-            Intent intent = new Intent(EditStudentActivity.this, DetailActivity.class);
-            startActivity(intent);
-            finish();
-        });
-    }
+//    private void setDeleteOnClick() {
+//        b_delete.setOnClickListener(v -> {
+//            StudentManageComponent studentManageComponent = AndroidApplication.INSTANCE.APP.getComponent(StudentManageComponent.class);
+//            studentManageComponent.remove(et_student);
+//            Intent intent = new Intent(EditStudentActivity.this, DetailActivity.class);
+//            startActivity(intent);
+//            finish();
+//        });
+//    }
 
     private void setConfirmOnClick() {
-        bt_confirm.setOnClickListener(v -> {
-            int position = sp_type.getSelectedItemPosition();
+        b_save.setOnClickListener(v -> {
             StudentManageComponent studentManageComponent = AndroidApplication.INSTANCE.APP.getComponent(StudentManageComponent.class);
-            editedStudent.setName(et_name.getText().toString());
-            studentManageComponent.update(editedStudent);
+            student.setName(et_name.getText().toString());
+            studentManageComponent.update(student);
             Intent intent = new Intent(EditStudentActivity.this, DetailActivity.class);
             startActivity(intent);
             finish();

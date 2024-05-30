@@ -36,8 +36,8 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        setContentView(R.layout.activity_detail);
-        rv_bills = findViewById(R.id.rv_bills);
+//        setContentView(R.layout.activity_detail);
+//        rv_bills = findViewById(R.id.rv_bills);
     }
 
     @Override

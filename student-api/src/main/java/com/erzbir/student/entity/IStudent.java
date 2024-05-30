@@ -9,21 +9,21 @@ import java.io.Serializable;
 public interface IStudent extends Serializable {
     Long getId();
 
-    public void setId(Long id);
+    void setId(Long id);
 
-    public String getName();
+    String getName();
 
-    public void setName(String name);
+    void setName(String name);
 
-    public String getSex();
+    String getGender();
 
-    public void setSex(String sex);
+    void setGender(String sex);
 
-    public String getMajor();
+    String getMajor();
 
-    public void setMajor(String major);
+    void setMajor(String major);
 
-    public String getGrade();
+    String getGrade();
 
-    public void setGrade(String grade);
+    void setGrade(String grade);
 }

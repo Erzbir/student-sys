@@ -3,96 +3,73 @@ package com.erzbir.student.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import com.erzbir.event.GlobalEventChannel;
-import com.erzbir.event.StandardListenerResult;
-import com.erzbir.student.AndroidApplication;
 import com.erzbir.student.R;
-import com.erzbir.student.activity.AddStudentActivity;
-import com.erzbir.student.component.StudentManageComponent;
-import com.erzbir.student.entity.IStudent;
-import com.erzbir.student.event.StudentAddEvent;
-import com.erzbir.student.event.StudentDeleteEvent;
-import com.erzbir.student.event.StudentEvent;
-import com.erzbir.student.event.StudentUpdateEvent;
+import com.erzbir.student.entity.Student;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Erzbir
  * @Data: 2024/5/29
  */
 public class MainActivity extends AppCompatActivity {
-    private TextView tv_total;
-    private TextView tv_totalPay;
-    private TextView tv_totalIncome;
-    private Button bt_addBill;
-    private Button bt_detail;
-    private Button bt_setting;
+    private TextView tv_totalCount;
+    private LinearLayout ll_majors;
+    private Button b_manage;
+    private List<Student> studentList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initView();
-        initOnClickCallback();
-        GlobalEventChannel.INSTANCE.subscribe(StudentEvent.class, event -> {
-            IStudent source = event.getSource();
-            Class<? extends StudentEvent> eventClass = event.getClass();
-            if (StudentAddEvent.class.equals(eventClass) || StudentUpdateEvent.class.equals(eventClass)) {
 
-            }
-            if (StudentDeleteEvent.class.equals(eventClass)) {
+        tv_totalCount = findViewById(R.id.tv_total);
+        ll_majors = findViewById(R.id.ll_majors);
+        b_manage = findViewById(R.id.b_manage);
 
-            }
-            tv_total.setText(String.valueOf(Float.parseFloat(tv_totalPay.getText().toString()) + Float.parseFloat(tv_totalIncome.getText().toString())));
-            return StandardListenerResult.CONTINUE;
+        studentList = new ArrayList<>();
+        // 示例数据
+        studentList.add(new Student(1L, "Alice", "f", "Computer Science", "Sophomore"));
+        studentList.add(new Student(2L, "Bob", "m", "Mechanical Engineering", "Junior"));
+        studentList.add(new Student(3L, "Charlie", "m", "Computer Science", "Freshman"));
+        studentList.add(new Student(4L, "David", "m", "Electrical Engineering", "Senior"));
+
+        updateStudentInfo();
+
+        b_manage.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, StudentListActivity.class);
+            startActivity(intent);
         });
     }
 
-    private void initView() {
-        tv_total = findViewById(R.id.tv_total);
-        tv_totalPay = findViewById(R.id.tv_totalPay);
-        tv_totalIncome = findViewById(R.id.tv_totalIncome);
-        bt_addBill = findViewById(R.id.bt_addBill);
-        bt_detail = findViewById(R.id.bt_detail);
-        bt_setting = findViewById(R.id.bt_setting);
-        StudentManageComponent studentManageComponent = AndroidApplication.INSTANCE.APP.getComponent(StudentManageComponent.class);
-        List<IStudent> students = studentManageComponent.getStudents();
-        float total = 0, totalPay = 0, totalIncome = 0;
-        for (IStudent student : students) {
+    private void updateStudentInfo() {
+        int totalStudents = studentList.size();
+        Map<String, Integer> majorCountMap = new HashMap<>();
 
+        for (Student student : studentList) {
+            String major = student.getMajor();
+            if (majorCountMap.containsKey(major)) {
+                majorCountMap.put(major, majorCountMap.get(major) + 1);
+            } else {
+                majorCountMap.put(major, 1);
+            }
         }
-        tv_total.setText(String.valueOf(total));
-        tv_totalPay.setText(String.valueOf(totalPay));
-        tv_totalIncome.setText(String.valueOf(totalIncome));
-    }
 
-    private void initOnClickCallback() {
-        setDetailOnClick();
-        setAddBillOnClick();
-        setSettingOnClick();
-    }
+        tv_totalCount.setText("Total Students: " + totalStudents);
 
-    private void setAddBillOnClick() {
-        bt_addBill.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, AddStudentActivity.class);
-            startActivity(intent);
-        });
-    }
-
-    private void setSettingOnClick() {
-        bt_setting.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, SettingActivity.class);
-            startActivity(intent);
-        });
-    }
-
-    private void setDetailOnClick() {
-        bt_detail.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-            startActivity(intent);
-        });
+        ll_majors.removeAllViews();
+        for (Map.Entry<String, Integer> entry : majorCountMap.entrySet()) {
+            TextView textViewMajor = new TextView(this);
+            textViewMajor.setText(entry.getKey() + ": " + entry.getValue() + " students");
+            textViewMajor.setTextSize(16);
+            textViewMajor.setTextColor(getResources().getColor(R.color.black));
+            ll_majors.addView(textViewMajor);
+        }
     }
 }

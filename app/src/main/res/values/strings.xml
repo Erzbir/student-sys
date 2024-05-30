@@ -1,3 +1,32 @@
 <resources>
     <string name="app_name">StudentSys</string>
+    <string name="cancel">Cancel</string>
+    <string name="change_password">Change Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="new_password">New Password</string>
+    <string name="old_password">Old Password</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="student_id">Student ID:</string>
+    <string name="name">Name:</string>
+    <string name="gender">Gender:</string>
+    <string name="major">Major:</string>
+    <string name="student_list">Student List</string>
+    <string name="add_student">Add Student</string>
+    <string name="author">Author</string>
+    <string name="erzbir">Erzbir</string>
+    <string name="github">Github</string>
+    <string name="github_com_erzbir">github.com/Erzbir</string>
+    <string name="remember_me">Remember me</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="manage_students">Manage Students</string>
+    <string name="student_management_system">Student Management System</string>
+    <string name="total_students_0">Total Students: 0</string>
+    <string name="about">About</string>
+    <string name="save">Save</string>
+    <string name="student_details">Student Details</string>
+    <string name="logo">LOGO</string>
 </resources>

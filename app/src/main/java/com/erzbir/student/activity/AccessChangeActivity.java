@@ -19,11 +19,11 @@ import com.erzbir.student.view.SettingActivity;
  * @Data: 2024/5/29
  */
 public class AccessChangeActivity extends AppCompatActivity {
-    private Button bt_confirm;
-    private Button bt_cancel;
-    private TextView tv_password_old;
-    private EditText tv_password;
-    private EditText tv_password_sure;
+    private Button b_change;
+    private Button b_cancel;
+    private TextView et_oldPassword;
+    private EditText et_newPassword;
+    private EditText et_confirm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +35,11 @@ public class AccessChangeActivity extends AppCompatActivity {
 
     private void initView() {
         setContentView(R.layout.activity_change_access);
-        bt_confirm = findViewById(R.id.bt_confirm);
-        bt_cancel = findViewById(R.id.bt_cancel);
-        tv_password_old = findViewById(R.id.et_password_old);
-        tv_password = findViewById(R.id.et_password);
-        tv_password_sure = findViewById(R.id.et_password_sure);
+        b_change = findViewById(R.id.b_changePassword);
+        b_cancel = findViewById(R.id.b_cancel);
+        et_oldPassword = findViewById(R.id.et_oldPassword);
+        et_newPassword = findViewById(R.id.et_newPassword);
+        et_confirm = findViewById(R.id.et_confirm);
     }
 
     private void initOnClickCallback() {
@@ -48,15 +48,15 @@ public class AccessChangeActivity extends AppCompatActivity {
     }
 
     private void setConfirmOnClick() {
-        bt_confirm.setOnClickListener(v -> {
+        b_change.setOnClickListener(v -> {
             User user = SavedUser.getUser();
-            String oldPassword = tv_password_old.getText().toString();
+            String oldPassword = et_oldPassword.getText().toString();
             if (!oldPassword.equals(user.getPassword())) {
                 Toast.makeText(AccessChangeActivity.this, "旧密码错误", Toast.LENGTH_SHORT).show();
                 return;
             }
-            String password = tv_password.getText().toString();
-            String passwordSure = tv_password_sure.getText().toString();
+            String password = et_newPassword.getText().toString();
+            String passwordSure = et_confirm.getText().toString();
             if (!passwordSure.equals(password)) {
                 Toast.makeText(AccessChangeActivity.this, "两次密码不一致", Toast.LENGTH_SHORT).show();
                 return;
@@ -71,7 +71,7 @@ public class AccessChangeActivity extends AppCompatActivity {
     }
 
     private void setCancelOnClick() {
-        bt_cancel.setOnClickListener(v -> {
+        b_cancel.setOnClickListener(v -> {
             Intent intent = new Intent(AccessChangeActivity.this, SettingActivity.class);
             startActivity(intent);
             finish();

@@ -21,7 +21,7 @@ public class Student implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
     private String name;
-    private String sex;
+    private String gender;
     private String major;
     private String grade;
 }

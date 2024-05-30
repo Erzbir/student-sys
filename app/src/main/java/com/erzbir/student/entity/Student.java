@@ -14,12 +14,24 @@ public class Student implements IStudent {
     private Long id;
     @ColumnInfo(name = "name")
     private String name;
-    @ColumnInfo(name = "sex")
-    private String sex;
+    @ColumnInfo(name = "gender")
+    private String gender;
     @ColumnInfo(name = "major")
     private String major;
     @ColumnInfo(name = "grade")
     private String grade;
+
+    public Student(Long id, String name, String gender, String major, String grade) {
+        this.id = id;
+        this.name = name;
+        this.gender = gender;
+        this.major = major;
+        this.grade = grade;
+    }
+
+    private Student() {
+
+    }
 
     @Override
     public Long getId() {
@@ -42,13 +54,13 @@ public class Student implements IStudent {
     }
 
     @Override
-    public String getSex() {
-        return sex;
+    public String getGender() {
+        return gender;
     }
 
     @Override
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setGender(String sex) {
+        this.gender = sex;
     }
 
     @Override
@@ -88,8 +100,8 @@ public class Student implements IStudent {
             return this;
         }
 
-        public Builder sex(String sex) {
-            student.setSex(sex);
+        public Builder gender(String gender) {
+            student.setGender(gender);
             return this;
         }
 

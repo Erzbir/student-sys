@@ -47,11 +47,11 @@ public class AccessActivity extends AppCompatActivity {
 
     private void initView() {
         setContentView(R.layout.activity_access);
-        bt_register = findViewById(R.id.register);
-        bt_login = findViewById(R.id.login);
-        et_username = findViewById(R.id.username);
-        et_password = findViewById(R.id.password);
-        cb_remember = findViewById(R.id.s_remember);
+        bt_register = findViewById(R.id.b_register);
+        bt_login = findViewById(R.id.b_login);
+        et_username = findViewById(R.id.et_username);
+        et_password = findViewById(R.id.et_password);
+        cb_remember = findViewById(R.id.cb_remember);
         SharedPreferences preferences = getSharedPreferences("user", 0);
         boolean rem = preferences.getBoolean(SavedUser.REM_PASSWORD_KEY, false);
         if (rem) {

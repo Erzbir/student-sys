@@ -15,7 +15,7 @@ import com.erzbir.student.view.MainActivity;
 
 /**
  * @author Erzbir
- * @Data: 2024/5/29
+ * @since 2024/5/29
  */
 public class AddStudentActivity extends AppCompatActivity {
     private Spinner sp_type;
@@ -34,14 +34,14 @@ public class AddStudentActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        setContentView(R.layout.activity_add);
-        et_name = findViewById(R.id.et_name);
-        et_money = findViewById(R.id.et_money);
-        et_detail = findViewById(R.id.et_detail);
-        et_time = findViewById(R.id.et_time);
-        sp_type = findViewById(R.id.sp_type);
-        bt_confirm = findViewById(R.id.bt_confirm);
-        bt_cancel = findViewById(R.id.bt_cancel);
+        setContentView(R.layout.activity_student_detail);
+//        et_name = findViewById(R.id.et_name);
+//        et_money = findViewById(R.id.et_money);
+//        et_detail = findViewById(R.id.et_detail);
+//        et_time = findViewById(R.id.et_time);
+//        sp_type = findViewById(R.id.sp_type);
+//        bt_confirm = findViewById(R.id.bt_confirm);
+//        bt_cancel = findViewById(R.id.bt_cancel);
     }
 
     @Override

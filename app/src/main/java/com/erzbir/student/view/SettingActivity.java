@@ -15,8 +15,7 @@ import com.erzbir.student.activity.AccessChangeActivity;
 public class SettingActivity extends AppCompatActivity {
 
     private Button bt_about;
-    private Button bt_changeAccess;
-    private Button bt_backup;
+    private Button bt_changePassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +26,8 @@ public class SettingActivity extends AppCompatActivity {
 
     private void initView() {
         setContentView(R.layout.activity_setting);
-        bt_about = findViewById(R.id.bt_about);
-        bt_changeAccess = findViewById(R.id.bt_changeAccess);
-        bt_backup = findViewById(R.id.bt_backup);
+        bt_about = findViewById(R.id.b_about);
+        bt_changePassword = findViewById(R.id.b_changePassword);
     }
 
     private void initOnClickCallback() {
@@ -38,7 +36,7 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private void setChangeOnClick() {
-        bt_changeAccess.setOnClickListener(v -> {
+        bt_changePassword.setOnClickListener(v -> {
             Intent intent = new Intent(SettingActivity.this, AccessChangeActivity.class);
             startActivity(intent);
             finish();

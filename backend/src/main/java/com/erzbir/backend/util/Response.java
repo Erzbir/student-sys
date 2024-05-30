@@ -26,17 +26,6 @@ public class Response<T> implements Serializable {
 
     private T data;
 
-    public static String toJson(Response<?> response) {
-        return """
-                {
-                "success": "%s",
-                "msg": "%s",
-                "code": %s,
-                "data"" "%s"
-                }
-                """.formatted(response.getSuccess(), response.getMsg(), response.getCode(), response.getData());
-    }
-
     public static <T> Response<T> blank() {
         return new Response<>();
     }
