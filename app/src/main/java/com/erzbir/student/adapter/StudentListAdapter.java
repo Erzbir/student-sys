@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,11 +21,11 @@ import java.util.List;
  * @author Erzbir
  * @Data: 2024/5/29
  */
-public class StudentDetailAdapter extends RecyclerView.Adapter<StudentDetailAdapter.ViewHolder> {
+public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.ViewHolder> {
     private Context context;
     private List<Student> students;
 
-    public StudentDetailAdapter(Context context, List<Student> students) {
+    public StudentListAdapter(Context context, List<Student> students) {
         this.context = context;
         this.students = students;
     }
@@ -32,17 +33,16 @@ public class StudentDetailAdapter extends RecyclerView.Adapter<StudentDetailAdap
     @NonNull
     @NotNull
     @Override
-    public StudentDetailAdapter.ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(context).inflate(R.layout.recy_item, viewGroup, false);
+    public StudentListAdapter.ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup viewGroup, int i) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_student, viewGroup, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull StudentDetailAdapter.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull @NotNull StudentListAdapter.ViewHolder viewHolder, int i) {
         final Student student = students.get(i);
-        viewHolder.item_name.setText(student.getName());
-        View editBtn = viewHolder.itemView.findViewById(R.id.bt_billEdit);
-        editBtn.setOnClickListener(v -> {
+        viewHolder.tv_name.setText(student.getName());
+        viewHolder.b_edit.setOnClickListener(v -> {
             Intent intent = new Intent(context, EditStudentActivity.class);
             intent.putExtra("student", student);
             context.startActivity(intent);
@@ -56,19 +56,21 @@ public class StudentDetailAdapter extends RecyclerView.Adapter<StudentDetailAdap
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView item_name;
-        TextView item_money;
-        TextView item_type;
-        TextView item_detail;
-        TextView item_time;
+        TextView tv_id;
+        TextView tv_name;
+        TextView tv_gender;
+        TextView tv_major;
+        TextView tv_grade;
+        Button b_edit;
 
         public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
-            item_name = itemView.findViewById(R.id.item_name);
-            item_money = itemView.findViewById(R.id.item_money);
-            item_type = itemView.findViewById(R.id.item_type);
-            item_detail = itemView.findViewById(R.id.item_detail);
-            item_time = itemView.findViewById(R.id.item_time);
+            tv_id = itemView.findViewById(R.id.tv_id);
+            tv_name = itemView.findViewById(R.id.tv_name);
+            tv_gender = itemView.findViewById(R.id.tv_gender);
+            tv_major = itemView.findViewById(R.id.tv_major);
+            tv_grade = itemView.findViewById(R.id.tv_grade);
+            b_edit = itemView.findViewById(R.id.b_edit);
         }
     }
 }

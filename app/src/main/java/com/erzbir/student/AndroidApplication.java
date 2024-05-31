@@ -15,4 +15,10 @@ public class AndroidApplication extends Application {
     public void onCreate() {
         super.onCreate();
     }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        APP.stop();
+    }
 }

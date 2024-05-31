@@ -75,13 +75,6 @@
                 android:layout_height="40dp"
                 android:text="@string/delete"
                 style="@style/ButtonStyle"/>
-        <Button
-                android:id="@+id/b_cancel"
-                android:layout_width="75dp"
-                android:layout_height="40dp"
-                android:text="@string/cancel"
-                style="@style/ButtonStyle"/>
-
     </LinearLayout>
 
 

@@ -13,7 +13,7 @@
             android:textSize="24sp"
             android:textColor="@color/black"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_students"
@@ -22,7 +22,7 @@
             android:layout_below="@id/tv_title"
             android:paddingBottom="16dp"
             android:layout_marginBottom="60dp"
-            android:clipToPadding="false" />
+            android:clipToPadding="false"/>
 
     <Button
             android:id="@+id/b_add"
@@ -33,7 +33,7 @@
             android:textColor="@color/white"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="false"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"/>
     <Button
             android:id="@+id/b_cancel"
             android:layout_width="wrap_content"
@@ -45,6 +45,6 @@
             android:layout_toEndOf="@+id/b_add"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="false"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"/>
 
 </RelativeLayout>

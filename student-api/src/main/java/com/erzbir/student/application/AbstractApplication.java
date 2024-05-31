@@ -23,9 +23,9 @@ public abstract class AbstractApplication implements Application, ApplicationEve
 
     @Override
     public void init(Set<Class<?>> classes, Setting setting) {
+        this.setting = setting;
         loadComponents(classes);
         initComponents();
-        this.setting = setting;
     }
 
     public void initComponents() {

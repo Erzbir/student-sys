@@ -37,6 +37,7 @@ public class AccessActivity extends AppActivity {
     @Override
     protected void initFirst() {
         AndroidApplication.INSTANCE.APP.init(ScanUtil.scanAllClasses(AccessActivity.this), new DefaultSetting());
+        AndroidApplication.INSTANCE.APP.start();
     }
 
     @Override

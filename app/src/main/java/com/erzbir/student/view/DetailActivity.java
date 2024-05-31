@@ -7,8 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.erzbir.student.AndroidApplication;
-import com.erzbir.student.R;
-import com.erzbir.student.adapter.StudentDetailAdapter;
+import com.erzbir.student.adapter.StudentListAdapter;
 import com.erzbir.student.component.StudentManageComponent;
 import com.erzbir.student.entity.Student;
 
@@ -29,7 +28,7 @@ public class DetailActivity extends AppCompatActivity {
         initView();
         StudentManageComponent studentManageComponent = AndroidApplication.INSTANCE.APP.getComponent(StudentManageComponent.class);
         students = studentManageComponent.stream().map(student -> (Student) student).collect(Collectors.toList());
-        StudentDetailAdapter adapter = new StudentDetailAdapter(DetailActivity.this, students);
+        StudentListAdapter adapter = new StudentListAdapter(DetailActivity.this, students);
         StaggeredGridLayoutManager sm = new StaggeredGridLayoutManager(StaggeredGridLayoutManager.VERTICAL, 1);
         rv_bills.setLayoutManager(sm);
         rv_bills.setAdapter(adapter);
