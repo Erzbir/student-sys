@@ -1,11 +1,13 @@
 package com.erzbir.student.core.component;
 
+import cn.hutool.core.util.StrUtil;
 import com.erzbir.student.annotation.Component;
+import com.erzbir.student.client.Client;
+import com.erzbir.student.client.req.LoginReq;
+import com.erzbir.student.client.resp.LoginResp;
 import com.erzbir.student.component.AbstractComponent;
 import com.erzbir.student.component.LoginComponent;
-import com.erzbir.student.entity.IUser;
-import com.erzbir.student.entity.UserContainer;
-import com.erzbir.student.core.entity.UserContainerProvider;
+import com.erzbir.student.entity.User;
 import com.erzbir.student.event.UserLoginEvent;
 
 /**
@@ -14,21 +16,17 @@ import com.erzbir.student.event.UserLoginEvent;
  */
 @Component
 public class DefaultLoginComponent extends AbstractComponent implements LoginComponent {
-    private UserContainer userContainer;
+    private final Client client = Client.INSTANCE;
 
     @Override
-    public boolean login(IUser user) {
-        IUser user1 = userContainer.get(user.getUsername());
+    public boolean login(User user) {
         broadcastEvent(new UserLoginEvent(user));
-        if (!(user1 == null)) {
-            return user1.getPassword().equals(user.getPassword());
-        }
-        return false;
+        LoginResp resp = client.login(new LoginReq(user));
+        return StrUtil.isNotBlank(resp.getToken()) && StrUtil.isNotBlank(resp.getUsername());
     }
 
     @Override
     public void init() {
-        userContainer = UserContainerProvider.getImpl();
         isInit.set(true);
     }
 }

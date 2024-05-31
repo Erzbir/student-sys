@@ -4,9 +4,9 @@ import com.erzbir.student.annotation.Component;
 import com.erzbir.student.component.IComponent;
 import com.erzbir.student.event.LifeCycleEvent;
 import com.erzbir.student.event.LifeCycleListener;
+import com.erzbir.student.setting.Setting;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -19,11 +19,13 @@ import java.util.concurrent.ConcurrentHashMap;
 public abstract class AbstractApplication implements Application, ApplicationEventPublisher {
     protected Set<LifeCycleListenerRegistry> listeners = new LinkedHashSet<>();
     protected final static Map<Class<IComponent>, IComponent> components = new ConcurrentHashMap<>();
+    protected Setting setting;
 
     @Override
-    public void init(Set<Class<?>> classes) {
+    public void init(Set<Class<?>> classes, Setting setting) {
         loadComponents(classes);
         initComponents();
+        this.setting = setting;
     }
 
     public void initComponents() {
@@ -85,5 +87,10 @@ public abstract class AbstractApplication implements Application, ApplicationEve
     @Override
     public <E extends LifeCycleEvent> void addLifeCycleListener(LifeCycleListener<E> lifeCycleListener, Class<E> eventType) {
         listeners.add(new LifeCycleListenerRegistry(lifeCycleListener, eventType));
+    }
+
+    @Override
+    public Setting getSetting() {
+        return setting;
     }
 }

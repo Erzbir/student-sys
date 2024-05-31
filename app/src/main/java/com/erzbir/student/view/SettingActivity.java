@@ -1,42 +1,50 @@
 package com.erzbir.student.view;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.KeyEvent;
 import android.widget.Button;
-import androidx.appcompat.app.AppCompatActivity;
 import com.erzbir.student.R;
 import com.erzbir.student.activity.AccessChangeActivity;
+import com.erzbir.student.common.AppActivity;
 
 /**
  * @author Erzbir
  * @Data: 2024/5/29
  */
-public class SettingActivity extends AppCompatActivity {
+public class SettingActivity extends AppActivity {
 
-    private Button bt_about;
-    private Button bt_changePassword;
+    private Button b_server;
+    private Button b_cancel;
+    private Button b_about;
+    private Button b_changePassword;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        initView();
-        initOnClickCallback();
-    }
-
-    private void initView() {
+    protected void initView() {
         setContentView(R.layout.activity_setting);
-        bt_about = findViewById(R.id.b_about);
-        bt_changePassword = findViewById(R.id.b_changePassword);
+        b_server = findViewById(R.id.b_server);
+        b_about = findViewById(R.id.b_about);
+        b_changePassword = findViewById(R.id.b_changePassword);
+        b_cancel = findViewById(R.id.b_cancel);
     }
 
-    private void initOnClickCallback() {
+    protected void initOnClickCallback() {
         setAboutOnClick();
         setChangeOnClick();
+        setServerOnClick();
+        setCancelOnClick();
+    }
+
+    @Override
+    protected void initFirst() {
+
+    }
+
+    @Override
+    protected void initLast() {
+
     }
 
     private void setChangeOnClick() {
-        bt_changePassword.setOnClickListener(v -> {
+        b_changePassword.setOnClickListener(v -> {
             Intent intent = new Intent(SettingActivity.this, AccessChangeActivity.class);
             startActivity(intent);
             finish();
@@ -44,7 +52,7 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private void setAboutOnClick() {
-        bt_about.setOnClickListener(v -> {
+        b_about.setOnClickListener(v -> {
             Intent intent = new Intent(SettingActivity.this, AboutActivity.class);
             startActivity(intent);
             finish();
@@ -60,5 +68,17 @@ public class SettingActivity extends AppCompatActivity {
             finish();
         }
         return super.onKeyDown(keyCode, keyEvent);
+    }
+
+    private void setServerOnClick() {
+        b_server.setOnClickListener(v -> {
+
+        });
+    }
+
+    private void setCancelOnClick() {
+        b_cancel.setOnClickListener(v -> {
+            // Save student details logic
+        });
     }
 }

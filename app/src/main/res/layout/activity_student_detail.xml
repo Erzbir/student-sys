@@ -78,6 +78,14 @@
                 android:background="@drawable/button_background"
                 android:textColor="@color/white"
                 android:layout_marginTop="16dp" />
+        <Button
+                android:id="@+id/b_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/cancel"
+                android:background="@drawable/button_background"
+                android:textColor="@color/white"
+                android:layout_marginTop="16dp" />
 
     </LinearLayout>
 

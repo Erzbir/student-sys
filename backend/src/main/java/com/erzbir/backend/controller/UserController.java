@@ -18,7 +18,7 @@ public class UserController {
     @Resource
     private UserService userService;
 
-    @GetMapping("/all")
+    @GetMapping("/list")
     public Response<List<User>> list() {
         return Response.ok(userService.list());
     }

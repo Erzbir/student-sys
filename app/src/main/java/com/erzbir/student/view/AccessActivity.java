@@ -2,27 +2,26 @@ package com.erzbir.student.view;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
 import com.erzbir.student.AndroidApplication;
 import com.erzbir.student.R;
+import com.erzbir.student.common.AppActivity;
 import com.erzbir.student.component.LoginComponent;
 import com.erzbir.student.component.RegisterComponent;
 import com.erzbir.student.component.UserManageComponent;
-import com.erzbir.student.dao.AppDatabase;
 import com.erzbir.student.entity.User;
 import com.erzbir.student.scan.ScanUtil;
+import com.erzbir.student.setting.DefaultSetting;
 import com.erzbir.student.util.SavedUser;
 
 /**
  * @author Erzbir
  * @Data: 2024/5/29
  */
-public class AccessActivity extends AppCompatActivity {
+public class AccessActivity extends AppActivity {
 
     private EditText et_username;
     private EditText et_password;
@@ -30,22 +29,22 @@ public class AccessActivity extends AppCompatActivity {
     private Button bt_login;
     private CheckBox cb_remember;
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        AndroidApplication.INSTANCE.DB = AppDatabase.getInstance(AccessActivity.this);
-        AndroidApplication.INSTANCE.APP.init(ScanUtil.scanAllClasses(AccessActivity.this));
-        initView();
-        initOnClickCallback();
-    }
-
-    private void initOnClickCallback() {
+    protected void initOnClickCallback() {
         setLoginOnClick();
         setRegisterOnClick();
     }
 
-    private void initView() {
+    @Override
+    protected void initFirst() {
+        AndroidApplication.INSTANCE.APP.init(ScanUtil.scanAllClasses(AccessActivity.this), new DefaultSetting());
+    }
+
+    @Override
+    protected void initLast() {
+
+    }
+
+    protected void initView() {
         setContentView(R.layout.activity_access);
         bt_register = findViewById(R.id.b_register);
         bt_login = findViewById(R.id.b_login);

@@ -1,14 +1,13 @@
 package com.erzbir.student.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import androidx.appcompat.app.AppCompatActivity;
 import com.erzbir.student.AndroidApplication;
 import com.erzbir.student.R;
+import com.erzbir.student.common.AppActivity;
 import com.erzbir.student.component.StudentManageComponent;
 import com.erzbir.student.entity.Student;
 import com.erzbir.student.view.MainActivity;
@@ -17,7 +16,7 @@ import com.erzbir.student.view.MainActivity;
  * @author Erzbir
  * @since 2024/5/29
  */
-public class AddStudentActivity extends AppCompatActivity {
+public class AddStudentActivity extends AppActivity {
     private Spinner sp_type;
     private EditText et_name;
     private EditText et_money;
@@ -26,14 +25,7 @@ public class AddStudentActivity extends AppCompatActivity {
     private Button bt_confirm;
     private Button bt_cancel;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        initView();
-        initOnClickCallback();
-    }
-
-    private void initView() {
+    protected void initView() {
         setContentView(R.layout.activity_student_detail);
 //        et_name = findViewById(R.id.et_name);
 //        et_money = findViewById(R.id.et_money);
@@ -55,9 +47,20 @@ public class AddStudentActivity extends AppCompatActivity {
         return super.onKeyDown(keyCode, keyEvent);
     }
 
-    private void initOnClickCallback() {
+    @Override
+    protected void initOnClickCallback() {
         setCancelOnClick();
         setConfirmOnClick();
+    }
+
+    @Override
+    protected void initFirst() {
+
+    }
+
+    @Override
+    protected void initLast() {
+
     }
 
     private void setCancelOnClick() {

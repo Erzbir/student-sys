@@ -1,11 +1,12 @@
 package com.erzbir.student.core.component;
 
 import com.erzbir.student.annotation.Component;
+import com.erzbir.student.client.Client;
+import com.erzbir.student.client.req.AddReqs;
+import com.erzbir.student.client.resp.Response;
 import com.erzbir.student.component.AbstractComponent;
 import com.erzbir.student.component.RegisterComponent;
-import com.erzbir.student.entity.IUser;
-import com.erzbir.student.entity.UserContainer;
-import com.erzbir.student.core.entity.UserContainerProvider;
+import com.erzbir.student.entity.User;
 
 /**
  * @author Erzbir
@@ -13,17 +14,17 @@ import com.erzbir.student.core.entity.UserContainerProvider;
  */
 @Component
 public class DefaultRegisterComponent extends AbstractComponent implements RegisterComponent {
-    private UserContainer userContainer;
+    private final Client client = Client.INSTANCE;
+
 
     @Override
     public void init() {
-        userContainer = UserContainerProvider.getImpl();
         isInit.set(true);
     }
 
     @Override
-    public boolean register(IUser user) {
-        userContainer.add(user);
-        return true;
+    public boolean register(User user) {
+        Response<?> response = client.register(new AddReqs.AddUser(user));
+        return response.getSuccess();
     }
 }

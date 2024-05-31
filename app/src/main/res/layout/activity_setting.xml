@@ -7,6 +7,14 @@
               android:layout_weight="1"
               tools:context=".view.SettingActivity">
     <Button
+            android:id="@+id/b_server"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/set_server"
+            style="@style/ButtonStyle"
+            android:layout_marginTop="24dp"
+    />
+    <Button
             android:id="@+id/b_changePassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

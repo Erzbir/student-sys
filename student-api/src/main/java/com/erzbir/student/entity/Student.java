@@ -1,25 +1,17 @@
 package com.erzbir.student.entity;
 
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
+import java.io.Serializable;
 
 /**
  * @author Erzbir
  * @Data: 2024/5/29
  */
-@Entity(tableName = "student")
-public class Student implements IStudent {
-    @PrimaryKey(autoGenerate = true)
-    private Long id;
-    @ColumnInfo(name = "name")
-    private String name;
-    @ColumnInfo(name = "gender")
-    private String gender;
-    @ColumnInfo(name = "major")
-    private String major;
-    @ColumnInfo(name = "grade")
-    private String grade;
+public class Student implements Serializable {
+    private Long id = 0L;
+    private String name = "";
+    private String gender = "";
+    private String major = "";
+    private String grade = "";
 
     public Student(Long id, String name, String gender, String major, String grade) {
         this.id = id;
@@ -33,52 +25,42 @@ public class Student implements IStudent {
 
     }
 
-    @Override
     public Long getId() {
         return id;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
     }
 
-    @Override
     public String getName() {
         return name;
     }
 
-    @Override
     public void setName(String name) {
         this.name = name;
     }
 
-    @Override
     public String getGender() {
         return gender;
     }
 
-    @Override
     public void setGender(String sex) {
         this.gender = sex;
     }
 
-    @Override
     public String getMajor() {
         return major;
     }
 
-    @Override
     public void setMajor(String major) {
         this.major = major;
     }
 
-    @Override
     public String getGrade() {
         return grade;
     }
 
-    @Override
     public void setGrade(String grade) {
         this.grade = grade;
     }

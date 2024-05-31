@@ -3,6 +3,7 @@ package com.erzbir.student.application;
 import com.erzbir.student.component.IComponent;
 import com.erzbir.student.event.LifeCycleEvent;
 import com.erzbir.student.event.LifeCycleListener;
+import com.erzbir.student.setting.Setting;
 
 import java.util.Set;
 
@@ -17,7 +18,9 @@ public interface Application extends LifeCycle {
 
     void addLifeCycleListener(LifeCycleListener<E> lifeCycleListener, Class<E> eventType);
 
-    void init(Set<Class<?>> classes);
+    void init(Set<Class<?>> classes, Setting setting);
 
     void registerComponent(IComponent component);
+
+    Setting getSetting();
 }

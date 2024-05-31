@@ -1,7 +1,7 @@
 package com.erzbir.student.event;
 
 import com.erzbir.event.AbstractEvent;
-import com.erzbir.student.entity.IStudent;
+import com.erzbir.student.entity.Student;
 
 /**
  * @author Erzbir
@@ -9,12 +9,12 @@ import com.erzbir.student.entity.IStudent;
  */
 public class StudentDeleteEvent extends AbstractEvent implements StudentEvent {
 
-    public StudentDeleteEvent(IStudent source) {
+    public StudentDeleteEvent(Student source) {
         super(source);
     }
 
     @Override
-    public IStudent getSource() {
-        return (IStudent) source;
+    public Student getSource() {
+        return (Student) source;
     }
 }

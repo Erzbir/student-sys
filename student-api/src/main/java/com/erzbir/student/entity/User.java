@@ -1,22 +1,15 @@
 package com.erzbir.student.entity;
 
-import androidx.annotation.NonNull;
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 import org.jetbrains.annotations.NotNull;
+
+import java.io.Serializable;
 
 /**
  * @author Erzbir
  * @Data: 2024/5/29
  */
-@Entity(tableName = "user")
-public class User implements IUser {
-    @PrimaryKey
-    @NonNull
+public class User implements Serializable {
     private String username = "";
-
-    @ColumnInfo(name = "password")
     private String password = "";
 
     public @NotNull String getUsername() {

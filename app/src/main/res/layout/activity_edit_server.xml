@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:background="@color/light_gray">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <TextView
+                android:id="@+id/tv_server_x"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/server"
+                android:textSize="24sp"
+                android:textColor="@color/black"
+        />
+
+        <TextView
+                android:id="@+id/tv_server"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="https://test.com"
+                android:textSize="15sp"
+                android:textColor="@color/black"
+                android:layout_marginBottom="16dp"/>
+        <EditText
+                android:id="@+id/et_server"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/server"
+                android:background="@drawable/edit_text_background"
+                android:padding="10dp"
+                android:layout_marginBottom="16dp"
+                android:inputType="text"/>
+
+
+        <Button
+                android:id="@+id/b_save"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/save"
+                android:background="@drawable/button_background"
+                android:textColor="@color/white"
+                android:layout_marginTop="16dp"/>
+        <Button
+                android:id="@+id/b_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/cancel"
+                android:background="@drawable/button_background"
+                android:textColor="@color/white"
+                android:layout_marginTop="16dp"/>
+
+    </LinearLayout>
+
+</ScrollView>

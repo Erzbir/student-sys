@@ -1,15 +1,15 @@
 package com.erzbir.student.application;
 
-import com.erzbir.student.component.*;
-
-import java.util.Map;
-import java.util.ServiceLoader;
-
 /**
  * @author Erzbir
  * @Data: 2024/5/29
  */
 public class DefaultApplication extends AbstractApplication implements Application {
+    public static final DefaultApplication INSTANCE = new DefaultApplication();
+
+    private DefaultApplication() {
+    }
+
 
     @Override
     public void start() {

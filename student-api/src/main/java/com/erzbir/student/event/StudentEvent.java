@@ -1,7 +1,7 @@
 package com.erzbir.student.event;
 
 import com.erzbir.event.Event;
-import com.erzbir.student.entity.IStudent;
+import com.erzbir.student.entity.Student;
 
 /**
  * @author Erzbir
@@ -9,5 +9,5 @@ import com.erzbir.student.entity.IStudent;
  */
 public interface StudentEvent extends Event {
     @Override
-    IStudent getSource();
+    Student getSource();
 }

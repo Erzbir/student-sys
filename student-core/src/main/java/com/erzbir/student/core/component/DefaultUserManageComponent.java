@@ -1,11 +1,12 @@
 package com.erzbir.student.core.component;
 
 import com.erzbir.student.annotation.Component;
+import com.erzbir.student.client.Client;
+import com.erzbir.student.client.req.QueryReqs;
+import com.erzbir.student.client.req.UpdateReqs;
 import com.erzbir.student.component.AbstractComponent;
 import com.erzbir.student.component.UserManageComponent;
-import com.erzbir.student.entity.IUser;
-import com.erzbir.student.entity.UserContainer;
-import com.erzbir.student.core.entity.UserContainerProvider;
+import com.erzbir.student.entity.User;
 
 /**
  * @author Erzbir
@@ -13,20 +14,20 @@ import com.erzbir.student.core.entity.UserContainerProvider;
  */
 @Component
 public class DefaultUserManageComponent extends AbstractComponent implements UserManageComponent {
-    private UserContainer userContainer;
+    private final Client client = Client.INSTANCE;
 
     @Override
     public void init() {
-        userContainer = UserContainerProvider.getImpl();
+        isInit.set(true);
     }
 
     @Override
-    public void update(IUser user) {
-        userContainer.update(user);
+    public void update(User user) {
+        client.updateUser(new UpdateReqs.UpdateUser(user));
     }
 
     @Override
-    public IUser getUser(String key) {
-        return userContainer.get(key);
+    public User getUser(String key) {
+        return client.queryUserByName(new QueryReqs.QueryUserByName(key)).getData();
     }
 }

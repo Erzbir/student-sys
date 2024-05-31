@@ -50,4 +50,5 @@ public class DetailActivity extends AppCompatActivity {
         }
         return super.onKeyDown(keyCode, keyEvent);
     }
+
 }

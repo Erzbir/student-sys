@@ -1,19 +1,19 @@
 package com.erzbir.student.event;
 
-import com.erzbir.student.entity.IStudent;
 import com.erzbir.event.AbstractEvent;
+import com.erzbir.student.entity.Student;
 
 /**
  * @author Erzbir
  * @Data: 2024/5/29
  */
 public class StudentAddEvent extends AbstractEvent implements StudentEvent {
-    public StudentAddEvent(IStudent source) {
+    public StudentAddEvent(Student source) {
         super(source);
     }
 
     @Override
-    public IStudent getSource() {
-        return (IStudent) source;
+    public Student getSource() {
+        return (Student) source;
     }
 }

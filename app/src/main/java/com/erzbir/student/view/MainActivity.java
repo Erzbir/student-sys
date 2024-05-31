@@ -1,12 +1,11 @@
 package com.erzbir.student.view;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
 import com.erzbir.student.R;
+import com.erzbir.student.common.AppActivity;
 import com.erzbir.student.entity.Student;
 
 import java.util.ArrayList;
@@ -18,15 +17,34 @@ import java.util.Map;
  * @author Erzbir
  * @Data: 2024/5/29
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppActivity {
     private TextView tv_totalCount;
     private LinearLayout ll_majors;
     private Button b_manage;
     private List<Student> studentList;
 
+    protected void initOnClickCallback() {
+        setManageOnClick();
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initFirst() {
+
+    }
+
+    @Override
+    protected void initLast() {
+        updateStudentInfo();
+    }
+
+    private void setManageOnClick() {
+        b_manage.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, StudentListActivity.class);
+            startActivity(intent);
+        });
+    }
+
+    protected void initView() {
         setContentView(R.layout.activity_main);
 
         tv_totalCount = findViewById(R.id.tv_total);
@@ -34,18 +52,10 @@ public class MainActivity extends AppCompatActivity {
         b_manage = findViewById(R.id.b_manage);
 
         studentList = new ArrayList<>();
-        // 示例数据
         studentList.add(new Student(1L, "Alice", "f", "Computer Science", "Sophomore"));
         studentList.add(new Student(2L, "Bob", "m", "Mechanical Engineering", "Junior"));
         studentList.add(new Student(3L, "Charlie", "m", "Computer Science", "Freshman"));
         studentList.add(new Student(4L, "David", "m", "Electrical Engineering", "Senior"));
-
-        updateStudentInfo();
-
-        b_manage.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, StudentListActivity.class);
-            startActivity(intent);
-        });
     }
 
     private void updateStudentInfo() {

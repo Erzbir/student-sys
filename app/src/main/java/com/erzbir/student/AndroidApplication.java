@@ -2,7 +2,6 @@ package com.erzbir.student;
 
 import android.app.Application;
 import com.erzbir.student.application.DefaultApplication;
-import com.erzbir.student.dao.AppDatabase;
 
 /**
  * @author Erzbir
@@ -10,8 +9,7 @@ import com.erzbir.student.dao.AppDatabase;
  */
 public class AndroidApplication extends Application {
     public static final AndroidApplication INSTANCE = new AndroidApplication();
-    public final com.erzbir.student.application.Application APP = new DefaultApplication();
-    public AppDatabase DB;
+    public final com.erzbir.student.application.Application APP = DefaultApplication.INSTANCE;
 
     @Override
     public void onCreate() {

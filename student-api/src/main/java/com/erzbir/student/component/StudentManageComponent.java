@@ -1,6 +1,6 @@
 package com.erzbir.student.component;
 
-import com.erzbir.student.entity.IStudent;
+import com.erzbir.student.entity.Student;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -10,17 +10,17 @@ import java.util.stream.Stream;
  * @Data: 2024/5/29
  */
 public interface StudentManageComponent extends IComponent {
-    void add(IStudent student);
+    void add(Student student);
 
-    void remove(IStudent student);
+    void remove(Student student);
 
-    boolean contains(IStudent student);
+    boolean contains(Student student);
 
-    void update(IStudent student);
+    void update(Student student);
 
-    List<IStudent> getStudents();
+    List<Student> getStudents();
 
-    default Stream<IStudent> stream() {
+    default Stream<Student> stream() {
         return getStudents().stream();
     }
 }

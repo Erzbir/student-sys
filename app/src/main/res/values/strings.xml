@@ -29,4 +29,6 @@
     <string name="save">Save</string>
     <string name="student_details">Student Details</string>
     <string name="logo">LOGO</string>
+    <string name="set_server">Set Server</string>
+    <string name="server">Server</string>
 </resources>

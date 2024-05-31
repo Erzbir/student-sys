@@ -1,14 +1,13 @@
 package com.erzbir.student.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
 import com.erzbir.student.AndroidApplication;
 import com.erzbir.student.R;
+import com.erzbir.student.common.AppActivity;
 import com.erzbir.student.component.UserManageComponent;
 import com.erzbir.student.entity.User;
 import com.erzbir.student.util.SavedUser;
@@ -18,7 +17,7 @@ import com.erzbir.student.view.SettingActivity;
  * @author Erzbir
  * @Data: 2024/5/29
  */
-public class AccessChangeActivity extends AppCompatActivity {
+public class AccessChangeActivity extends AppActivity {
     private Button b_change;
     private Button b_cancel;
     private TextView et_oldPassword;
@@ -26,14 +25,7 @@ public class AccessChangeActivity extends AppCompatActivity {
     private EditText et_confirm;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        initView();
-        initOnClickCallback();
-    }
-
-
-    private void initView() {
+    protected void initView() {
         setContentView(R.layout.activity_change_access);
         b_change = findViewById(R.id.b_changePassword);
         b_cancel = findViewById(R.id.b_cancel);
@@ -42,9 +34,19 @@ public class AccessChangeActivity extends AppCompatActivity {
         et_confirm = findViewById(R.id.et_confirm);
     }
 
-    private void initOnClickCallback() {
+    protected void initOnClickCallback() {
         setConfirmOnClick();
         setCancelOnClick();
+    }
+
+    @Override
+    protected void initFirst() {
+
+    }
+
+    @Override
+    protected void initLast() {
+
     }
 
     private void setConfirmOnClick() {
