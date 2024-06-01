@@ -31,9 +31,12 @@ public class AuthController {
     @PostMapping("/login")
     public Response<String> login(@RequestParam("username") String username, @RequestParam("password") String password) {
         Boolean auth = userService.auth(username, password);
-        Response<String> response = auth ? Response.ok(username) : Response.error("登陆失败");
+        if (!auth) {
+            return Response.error("认证失败");
+        }
         HttpSession session = request.getSession();
-        session.setAttribute("token", JWTUtil.createToken(User.builder().username(username).build()));
-        return response;
+        String token = JWTUtil.createToken(User.builder().username(username).build());
+        session.setAttribute("username", username);
+        return Response.ok(token);
     }
 }
