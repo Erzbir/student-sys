@@ -1,6 +1,7 @@
 package com.erzbir.sys.core.component;
 
 import com.erzbir.sys.annotation.Component;
+import com.erzbir.sys.application.DefaultApplication;
 import com.erzbir.sys.client.Client;
 import com.erzbir.sys.client.req.AddReqs;
 import com.erzbir.sys.client.req.DeleteReqs;
@@ -10,6 +11,9 @@ import com.erzbir.sys.client.resp.Response;
 import com.erzbir.sys.component.AbstractComponent;
 import com.erzbir.sys.component.StudentManageComponent;
 import com.erzbir.sys.entity.Student;
+import com.erzbir.sys.event.StudentAddEvent;
+import com.erzbir.sys.event.StudentDeleteEvent;
+import com.erzbir.sys.event.StudentUpdateEvent;
 
 import java.util.List;
 
@@ -24,11 +28,13 @@ public class DefaultStudentManageComponent extends AbstractComponent implements 
     @Override
     public void add(Student student) {
         client.addStudent(new AddReqs.AddStudent(student));
+        DefaultApplication.INSTANCE.dispatchEvent(new StudentAddEvent(student));
     }
 
     @Override
     public void remove(Student student) {
         client.deleteStudent(new DeleteReqs.DeleteStudent(student.getId()));
+        DefaultApplication.INSTANCE.dispatchEvent(new StudentDeleteEvent(student));
     }
 
     @Override
@@ -40,6 +46,7 @@ public class DefaultStudentManageComponent extends AbstractComponent implements 
     @Override
     public void update(Student student) {
         client.updateStudent(new UpdateReqs.UpdateStudent(student));
+        DefaultApplication.INSTANCE.dispatchEvent(new StudentUpdateEvent(student));
     }
 
     @Override

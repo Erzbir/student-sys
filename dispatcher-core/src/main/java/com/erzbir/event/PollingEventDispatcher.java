@@ -1,6 +1,7 @@
 package com.erzbir.event;
 
 import java.util.Comparator;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.PriorityBlockingQueue;
 
 /**
@@ -46,9 +47,11 @@ public class PollingEventDispatcher extends AbstractEventDispatcher implements E
                     Thread.currentThread().interrupt();
                 }
                 EventChannelDispatcher<Event> channel = EventChannelDispatcher.INSTANCE;
-                Thread.ofVirtual()
-                        .name("Dispatcher-Sub-Thread")
-                        .start(createTask2(channel, event));
+                Thread thread = new Thread(createTask2(channel, event), "Dispatcher-Thread");
+                thread.start();
+//                Thread.ofVirtual()
+//                        .name("Dispatcher-Sub-Thread")
+//                        .start(createTask2(channel, event));
             }
         };
         // 主线程结束后程序不结束, 调用 cancel() 后结束

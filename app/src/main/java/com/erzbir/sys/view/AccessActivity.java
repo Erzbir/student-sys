@@ -11,10 +11,7 @@ import com.erzbir.sys.R;
 import com.erzbir.sys.common.AppActivity;
 import com.erzbir.sys.component.LoginComponent;
 import com.erzbir.sys.component.RegisterComponent;
-import com.erzbir.sys.component.UserManageComponent;
 import com.erzbir.sys.entity.User;
-import com.erzbir.sys.scan.ScanUtil;
-import com.erzbir.sys.setting.DefaultSetting;
 import com.erzbir.sys.util.SavedUser;
 
 /**
@@ -60,11 +57,16 @@ public class AccessActivity extends AppActivity {
         SharedPreferences user = getSharedPreferences("user", 0);
         boolean rem = user.getBoolean(SavedUser.REM_PASSWORD_KEY, false);
         if (rem) {
-            cb_remember.setChecked(true);
-            String username = user.getString(SavedUser.USERNAME_KEY, "");
-            String password = AndroidApplication.INSTANCE.APP.getComponent(UserManageComponent.class).getUser(username).getPassword();
-            et_username.setText(username);
-            et_password.setText(password);
+            try {
+                cb_remember.setChecked(true);
+                String username = user.getString(SavedUser.USERNAME_KEY, "");
+                String password = user.getString(SavedUser.PASSWORD_KEY, "");
+                et_username.setText(username);
+                et_password.setText(password);
+            } catch (Exception e) {
+                cb_remember.setChecked(false);
+                user.edit().putBoolean(SavedUser.REM_PASSWORD_KEY, false).apply();
+            }
         }
     }
 
@@ -96,6 +98,7 @@ public class AccessActivity extends AppActivity {
                 if (cb_remember.isChecked()) {
                     editor.putBoolean(SavedUser.REM_PASSWORD_KEY, true);
                     editor.putString(SavedUser.USERNAME_KEY, user.getUsername());
+                    editor.putString(SavedUser.PASSWORD_KEY, user.getPassword());
                 } else {
                     editor.clear();
                 }

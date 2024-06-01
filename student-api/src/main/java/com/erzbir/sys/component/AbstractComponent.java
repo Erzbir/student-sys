@@ -1,7 +1,8 @@
 package com.erzbir.sys.component;
 
-import com.erzbir.event.DefaultEventContext;
+import com.erzbir.application.DefaultApplication;
 import com.erzbir.event.Event;
+import com.erzbir.event.EventDispatcher;
 import com.erzbir.event.GlobalEventChannel;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -13,7 +14,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public abstract class AbstractComponent implements IComponent {
     protected AtomicBoolean active = new AtomicBoolean();
     protected AtomicBoolean isInit = new AtomicBoolean();
-    protected GlobalEventChannel globalEventChannel = GlobalEventChannel.INSTANCE;
 
 
     public AbstractComponent() {
@@ -46,10 +46,5 @@ public abstract class AbstractComponent implements IComponent {
     @Override
     public void active() {
         active.set(true);
-    }
-
-    @Override
-    public void broadcastEvent(Event event) {
-        globalEventChannel.broadcast(new DefaultEventContext(event));
     }
 }

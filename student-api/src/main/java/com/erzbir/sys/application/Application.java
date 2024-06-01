@@ -1,5 +1,6 @@
 package com.erzbir.sys.application;
 
+import com.erzbir.event.Event;
 import com.erzbir.sys.component.IComponent;
 import com.erzbir.sys.event.LifeCycleEvent;
 import com.erzbir.sys.event.LifeCycleListener;
@@ -23,4 +24,6 @@ public interface Application extends LifeCycle {
     void registerComponent(IComponent component);
 
     Setting getSetting();
+
+    void dispatchEvent(Event event);
 }

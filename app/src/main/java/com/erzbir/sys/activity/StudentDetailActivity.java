@@ -1,12 +1,15 @@
 package com.erzbir.sys.activity;
 
+import android.content.Intent;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import com.erzbir.sys.AndroidApplication;
 import com.erzbir.sys.R;
-import com.erzbir.sys.common.AppActivity;
 import com.erzbir.sys.common.PrivilegeActivity;
+import com.erzbir.sys.component.StudentManageComponent;
 import com.erzbir.sys.entity.Student;
+import com.erzbir.sys.view.StudentManageActivity;
 
 /**
  * @author Erzbir
@@ -37,7 +40,7 @@ public class StudentDetailActivity extends PrivilegeActivity {
         if (student != null) {
             et_id.setText(String.valueOf(student.getId()));
             et_name.setText(student.getName());
-//            sp_gender.setText(student.getGender());
+            sp_gender.setSelection(student.getGender().equals("m") ? 0 : 1);
             et_major.setText(student.getMajor());
             et_grade.setText(student.getGrade());
         }
@@ -61,13 +64,32 @@ public class StudentDetailActivity extends PrivilegeActivity {
 
     private void setSaveOnClick() {
         b_save.setOnClickListener(v -> {
-            // Save student details logic
+            StudentManageComponent component = AndroidApplication.INSTANCE.APP.getComponent(StudentManageComponent.class);
+            int i = getIntent().getIntExtra("add", 0);
+            if (i == 1) {
+                Student newStudent = new Student.Builder()
+                        .id(Long.parseLong(et_id.getText().toString()))
+                        .name(et_name.getText().toString())
+                        .gender(sp_gender.getSelectedItem().toString())
+                        .major(et_major.getText().toString())
+                        .grade(et_grade.getText().toString())
+                        .build();
+                component.add(newStudent);
+            } else {
+                component.update(student);
+            }
+            Intent intent = new Intent(StudentDetailActivity.this, StudentManageActivity.class);
+            startActivity(intent);
+            finish();
         });
     }
 
     private void setCancelOnClick() {
         b_cancel.setOnClickListener(v -> {
-            // Save student details logic
+            Intent intent = new Intent(StudentDetailActivity.this, StudentManageActivity.class);
+            startActivity(intent);
+            finish();
         });
+
     }
 }

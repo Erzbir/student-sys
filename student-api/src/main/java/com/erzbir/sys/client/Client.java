@@ -1,6 +1,7 @@
 package com.erzbir.sys.client;
 
 
+import cn.hutool.core.util.StrUtil;
 import com.erzbir.sys.application.DefaultApplication;
 import com.erzbir.sys.client.req.*;
 import com.erzbir.sys.client.resp.Response;
@@ -8,8 +9,10 @@ import com.erzbir.sys.entity.Student;
 import com.erzbir.sys.entity.User;
 import com.erzbir.sys.util.JSONUtil;
 import com.erzbir.sys.util.JWTUtil;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 import okhttp3.*;
 
 import java.time.Duration;
@@ -23,7 +26,6 @@ import java.util.List;
 public class Client {
     public static final Client INSTANCE = new Client();
     private final OkHttpClient client;
-    private final String mediaType = "application/json; charset=utf-8";
     private String token = "";
 
     private Client() {
@@ -31,22 +33,20 @@ public class Client {
     }
 
     private Request.Builder create0(String path) {
-        if (token != null && !token.isEmpty() && !token.isBlank() && JWTUtil.isTokenExpired(token)) {
-            throw new RuntimeException();
+        Request.Builder requestBuilder = new Request.Builder();
+        if (StrUtil.isNotBlank(token) && !JWTUtil.isTokenExpired(token)) {
+            requestBuilder.header("Authorization", "Bearer " + token);
         }
-        return new Request.Builder()
-                .header("Content-Type", mediaType)
-                .header("Authorization", token)
-                .url("http://" + DefaultApplication.INSTANCE.getSetting().getServer() + path);
+        return requestBuilder.url("http://" + DefaultApplication.INSTANCE.getSetting().getServer() + path);
     }
 
     private Request createPost(String path, String body) {
-        Request.Builder builder = create0(path);
-        return builder.post(RequestBody.create(body, MediaType.parse(mediaType))).build();
+        Request.Builder builder = create0(path).header("Content-Type", "application/json; charset=utf-8");
+        return builder.post(RequestBody.create(body, MediaType.parse("application/json; charset=utf-8"))).build();
     }
 
     private Request createGet(String path, String params) {
-        Request.Builder builder = create0(path);
+        Request.Builder builder = create0(path).header("Content-Type", "text/plain; charset=utf-8");
         if (params != null && !params.isEmpty()) {
             builder.url("http://" + DefaultApplication.INSTANCE.getSetting().getServer() + path + "?" + params);
         }
@@ -83,6 +83,9 @@ public class Client {
             return Response.error("Null data");
         }
         String string = data.toString();
+        if (StrUtil.isBlank(string)) {
+            return Response.error("Null data");
+        }
         JsonObject jsonObject = JsonParser.parseString(string).getAsJsonObject();
         if (jsonObject.isEmpty()) {
             return Response.error("Parse json error");
@@ -115,7 +118,16 @@ public class Client {
 
     public Response<List<Student>> queryAllStudents(QueryReqs.QueryAllStudents queryAllStudentsReq) {
         Response<?> response = get(Apis.Student.Query.ALL.path(), null);
-        return Response.ok(JSONUtil.toList(response.getData().toString(), Student.class));
+        Object data = response.getData();
+        if (data == null) {
+            return Response.blank();
+        }
+        String jsonStr = JSONUtil.toJsonStr(data);
+        Gson gson = new Gson();
+        List<Student> list = gson.fromJson(jsonStr, new TypeToken<List<Student>>() {
+        }.getType());
+        Response<List<Student>> lResponse = Response.ok(list, response.getMsg());
+        return lResponse;
     }
 
     public Response<?> register(AddReqs.AddUser addUserReq) {
@@ -141,7 +153,13 @@ public class Client {
 
     public Response<List<User>> queryAllUsers(QueryReqs.QueryAllUsers queryAllUsersReq) {
         Response<?> response = get(Apis.User.Query.ALL.path(), null);
-        return Response.ok(JSONUtil.toList(response.getData().toString(), User.class));
+        Object data = response.getData();
+        String jsonStr = JSONUtil.toJsonStr(data);
+        Gson gson = new Gson();
+        List<User> list = gson.fromJson(jsonStr, new TypeToken<List<User>>() {
+        }.getType());
+        Response<List<User>> lResponse = Response.ok(list, response.getMsg());
+        return lResponse;
     }
 
 

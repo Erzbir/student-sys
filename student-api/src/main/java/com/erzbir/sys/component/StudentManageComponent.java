@@ -19,8 +19,4 @@ public interface StudentManageComponent extends IComponent {
     void update(Student student);
 
     List<Student> getStudents();
-
-    default Stream<Student> stream() {
-        return getStudents().stream();
-    }
 }

@@ -7,10 +7,10 @@
     <string name="old_password">Old Password</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
-    <string name="student_id">Student ID:</string>
-    <string name="name">Name:</string>
-    <string name="gender">Gender:</string>
-    <string name="major">Major:</string>
+    <string name="student_id">Student ID</string>
+    <string name="name">Name</string>
+    <string name="gender">Gender</string>
+    <string name="major">Major</string>
     <string name="student_list">Student List</string>
     <string name="add_student">Add Student</string>
     <string name="author">Author</string>
@@ -32,4 +32,12 @@
     <string name="set_server">Set Server</string>
     <string name="server">Server</string>
     <string name="setting">Setting</string>
+    <string name="student">Student</string>
+    <string name="student_management">Student Management</string>
+    <string name="grade">Grade</string>
+    <string name="student_id_2">Student ID:</string>
+    <string name="name_2">Name:</string>
+    <string name="gender_2">Gender:</string>
+    <string name="major_2">Major:</string>
+    <string name="grade_2">Grade:</string>
 </resources>

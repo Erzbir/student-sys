@@ -3,11 +3,18 @@ package com.erzbir.sys.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.erzbir.event.GlobalEventChannel;
+import com.erzbir.sys.AndroidApplication;
 import com.erzbir.sys.R;
+import com.erzbir.sys.component.StudentManageComponent;
 import com.erzbir.sys.entity.Student;
+import com.erzbir.sys.event.StudentAddEvent;
+import com.erzbir.sys.event.StudentDeleteEvent;
+import com.erzbir.sys.event.StudentEvent;
 
 import java.util.List;
 
@@ -40,6 +47,24 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
     public void onBindViewHolder(@NonNull StudentViewHolder holder, int position) {
         Student student = studentList.get(position);
         holder.bind(student, onItemClickListener);
+        registerListener();
+        holder.b_delete.setOnClickListener(v -> {
+            StudentManageComponent component = AndroidApplication.INSTANCE.APP.getComponent(StudentManageComponent.class);
+            component.remove(student);
+//            studentList.remove(position);
+            notifyDataSetChanged();
+        });
+    }
+
+    private void registerListener() {
+        GlobalEventChannel.INSTANCE.subscribeAlways(StudentEvent.class, event -> {
+            Student student = event.getSource();
+            if (event instanceof StudentAddEvent) {
+                studentList.add(student);
+            } else if (event instanceof StudentDeleteEvent) {
+                studentList.remove(student);
+            }
+        });
     }
 
     @Override
@@ -48,27 +73,29 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
     }
 
     static class StudentViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewStudentID;
-        TextView textViewStudentName;
-        TextView textViewStudentGender;
-        TextView textViewStudentMajor;
-        TextView textViewStudentGrade;
+        TextView tv_id;
+        TextView tv_name;
+        TextView tv_gender;
+        TextView tv_major;
+        TextView tv_grade;
+        Button b_delete;
 
         public StudentViewHolder(@NonNull View itemView) {
             super(itemView);
-            textViewStudentID = itemView.findViewById(R.id.tv_id);
-            textViewStudentName = itemView.findViewById(R.id.tv_name);
-            textViewStudentGender = itemView.findViewById(R.id.tv_gender);
-            textViewStudentMajor = itemView.findViewById(R.id.tv_major);
-            textViewStudentGrade = itemView.findViewById(R.id.tv_grade);
+            tv_id = itemView.findViewById(R.id.tv_id);
+            tv_name = itemView.findViewById(R.id.tv_name);
+            tv_gender = itemView.findViewById(R.id.tv_gender);
+            tv_major = itemView.findViewById(R.id.tv_major);
+            tv_grade = itemView.findViewById(R.id.tv_grade);
+            b_delete = itemView.findViewById(R.id.b_delete);
         }
 
         public void bind(final Student student, final OnItemClickListener onItemClickListener) {
-            textViewStudentID.setText(String.format("Student ID: %s", student.getId()));
-            textViewStudentName.setText(String.format("Name: %s", student.getName()));
-            textViewStudentGender.setText(String.format("Gender: %s", student.getGender()));
-            textViewStudentMajor.setText(String.format("Major: %s", student.getMajor()));
-            textViewStudentGrade.setText(String.format("Grade: %s", student.getGrade()));
+            tv_id.setText(String.format("Student ID: %s", student.getId()));
+            tv_name.setText(String.format("Name: %s", student.getName()));
+            tv_gender.setText(String.format("Gender: %s", student.getGender()));
+            tv_major.setText(String.format("Major: %s", student.getMajor()));
+            tv_grade.setText(String.format("Grade: %s", student.getGrade()));
             itemView.setOnClickListener(v -> onItemClickListener.onItemClick(student));
         }
     }

@@ -9,9 +9,11 @@ public class NotificationEventDispatcher extends AbstractEventDispatcher impleme
 
     @Override
     protected <E extends Event> void dispatchTo(E event, EventChannel<E> channel) {
-        Thread.ofVirtual()
-                .name("Dispatcher-Thread")
-                .start(createTask(channel, event));
+        Thread thread = new Thread(createTask(channel, event), "Dispatcher-Thread");
+        thread.start();
+//        Thread.ofVirtual()
+//                .name("Dispatcher-Thread")
+//                .start(createTask(channel, event));
     }
 
     private <E extends Event> Runnable createTask(EventChannel<E> channel, E event) {

@@ -101,4 +101,26 @@ public class Student implements Serializable {
             return student;
         }
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof Student student)) {
+            return false;
+        }
+        return this.getId().equals(student.id);
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", gender='" + gender + '\'' +
+                ", major='" + major + '\'' +
+                ", grade='" + grade + '\'' +
+                '}';
+    }
 }

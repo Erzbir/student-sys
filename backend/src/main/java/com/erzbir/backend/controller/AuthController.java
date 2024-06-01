@@ -1,6 +1,7 @@
 package com.erzbir.backend.controller;
 
 import cn.hutool.json.JSONUtil;
+import com.erzbir.backend.annotation.StringResponse;
 import com.erzbir.backend.entity.User;
 import com.erzbir.backend.service.UserService;
 import com.erzbir.backend.util.JWTUtil;
@@ -22,7 +23,8 @@ import java.util.Map;
  */
 @Slf4j
 @RestController
-@RequestMapping("/auth")
+@RequestMapping(value = "/auth", produces = "application/json")
+@StringResponse
 public class AuthController {
     private final UserService userService;
     private final HttpServletRequest request;
@@ -33,13 +35,13 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public Response<String> login(@RequestBody User user) {
+    public Object login(@RequestBody User user) {
         Boolean auth = userService.auth(user.getUsername(), user.getPassword());
         if (!auth) {
             return Response.error("认证失败");
         }
         HttpSession session = request.getSession();
-        String token = JWTUtil.createToken(User.builder().username(user.getUsername()).build(), 2);
+        String token = JWTUtil.createToken(User.builder().username(user.getUsername()).build(), 10000);
         Map<String, String> map = new HashMap<>();
         map.put("token", token);
         session.setAttribute("username", user.getUsername());

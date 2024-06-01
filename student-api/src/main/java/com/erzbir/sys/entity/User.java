@@ -50,4 +50,23 @@ public class User implements Serializable {
         }
 
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof User user)) {
+            return false;
+        }
+        return this.username.equals(user.username);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

@@ -1,18 +1,18 @@
 package com.erzbir.backend.controller;
 
+import com.erzbir.backend.annotation.StringResponse;
 import com.erzbir.backend.entity.Student;
 import com.erzbir.backend.service.StudentService;
 import com.erzbir.backend.util.Response;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * @author Erzbir
  * @Data: 2024/5/29 09:53
  */
 @RestController
-@RequestMapping("/student")
+@RequestMapping(value = "/student", produces = "application/json")
+@StringResponse
 public class StudentController {
     private final StudentService studentService;
 
@@ -21,27 +21,27 @@ public class StudentController {
     }
 
     @GetMapping("/list")
-    public List<Student> list() {
-        return studentService.list();
+    public Object list() {
+        return Response.ok(studentService.list());
     }
 
     @GetMapping("/get")
-    public Response<Student> get(@RequestParam Long id) {
+    public Object get(@RequestParam Long id) {
         return Response.ok(studentService.getById(id));
     }
 
     @PostMapping("/add")
-    public Response<Boolean> add(@RequestBody Student student) {
+    public Object add(@RequestBody Student student) {
         return Response.ok(studentService.save(student));
     }
 
     @PostMapping("/update")
-    public Response<Boolean> update(@RequestBody Student student) {
+    public Object update(@RequestBody Student student) {
         return Response.ok(studentService.updateById(student));
     }
 
     @GetMapping("/delete")
-    public Response<Boolean> delete(@RequestParam Long id) {
+    public Object delete(@RequestParam Long id) {
         return Response.ok(studentService.removeById(id));
     }
 }

@@ -2,13 +2,21 @@ package com.erzbir.sys.view;
 
 import android.content.Intent;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.erzbir.event.GlobalEventChannel;
+import com.erzbir.event.StandardListenerResult;
+import com.erzbir.sys.AndroidApplication;
 import com.erzbir.sys.R;
-import com.erzbir.sys.common.AppActivity;
+import com.erzbir.sys.adapter.MajorAdapter;
 import com.erzbir.sys.common.PrivilegeActivity;
+import com.erzbir.sys.component.StudentManageComponent;
 import com.erzbir.sys.entity.Student;
-import com.erzbir.sys.util.SavedUser;
+import com.erzbir.sys.event.StudentAddEvent;
+import com.erzbir.sys.event.StudentDeleteEvent;
+import com.erzbir.sys.event.StudentEvent;
+import com.erzbir.sys.event.StudentUpdateEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,9 +29,9 @@ import java.util.Map;
  */
 public class MainActivity extends PrivilegeActivity {
     private TextView tv_totalCount;
-    private LinearLayout ll_majors;
+    private RecyclerView ll_majors;
     private Button b_manage;
-    private List<Student> studentList;
+    private List<Student> studentList = new ArrayList<>();
 
     protected void initOnClickCallback() {
         setManageOnClick();
@@ -37,27 +45,41 @@ public class MainActivity extends PrivilegeActivity {
     @Override
     protected void initLast() {
         updateStudentInfo();
+        registerListener();
+    }
+
+    private void registerListener() {
+        GlobalEventChannel.INSTANCE.subscribe(StudentEvent.class, event -> {
+            Student source = event.getSource();
+            Class<? extends StudentEvent> eventClass = event.getClass();
+            if (StudentAddEvent.class.equals(eventClass) || StudentUpdateEvent.class.equals(eventClass)) {
+                studentList.add(source);
+            } else if (StudentDeleteEvent.class.equals(eventClass)) {
+                studentList.remove(source);
+            }
+            tv_totalCount.setText("Total Students: " + studentList.size());
+
+            return StandardListenerResult.CONTINUE;
+        });
     }
 
     private void setManageOnClick() {
         b_manage.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, StudentListActivity.class);
+            Intent intent = new Intent(MainActivity.this, StudentManageActivity.class);
             startActivity(intent);
         });
     }
 
     protected void initView() {
         setContentView(R.layout.activity_main);
-
         tv_totalCount = findViewById(R.id.tv_total);
         ll_majors = findViewById(R.id.ll_majors);
         b_manage = findViewById(R.id.b_manage);
-
-        studentList = new ArrayList<>();
-        studentList.add(new Student(1L, "Alice", "f", "Computer Science", "Sophomore"));
-        studentList.add(new Student(2L, "Bob", "m", "Mechanical Engineering", "Junior"));
-        studentList.add(new Student(3L, "Charlie", "m", "Computer Science", "Freshman"));
-        studentList.add(new Student(4L, "David", "m", "Electrical Engineering", "Senior"));
+        StudentManageComponent component = AndroidApplication.INSTANCE.APP.getComponent(StudentManageComponent.class);
+        List<Student> students = component.getStudents();
+        if (students != null && !students.isEmpty()) {
+            studentList.addAll(students);
+        }
     }
 
     private void updateStudentInfo() {
@@ -76,12 +98,14 @@ public class MainActivity extends PrivilegeActivity {
         tv_totalCount.setText("Total Students: " + totalStudents);
 
         ll_majors.removeAllViews();
-        for (Map.Entry<String, Integer> entry : majorCountMap.entrySet()) {
-            TextView textViewMajor = new TextView(this);
-            textViewMajor.setText(entry.getKey() + ": " + entry.getValue() + " students");
-            textViewMajor.setTextSize(16);
-            textViewMajor.setTextColor(getResources().getColor(R.color.black));
-            ll_majors.addView(textViewMajor);
-        }
+
+        // 使用线性布局管理器
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        ll_majors.setLayoutManager(layoutManager);
+
+
+        // 创建适配器并设置给 RecyclerView
+        MajorAdapter mAdapter = new MajorAdapter(majorCountMap);
+        ll_majors.setAdapter(mAdapter);
     }
 }

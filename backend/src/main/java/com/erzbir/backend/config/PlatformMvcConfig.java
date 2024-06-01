@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -34,8 +35,21 @@ public class PlatformMvcConfig implements WebMvcConfigurer {
     static class HeaderInterceptor implements HandlerInterceptor {
         @Override
         public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+            if (request.getMethod().equals("GET")) {
+                return true;
+            }
             String header = request.getHeader("Content-Type");
             return StringUtils.hasText(header) && header.contains("application/json");
+        }
+
+        @Override
+        public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+            response.setHeader("Content-Type", "application/json; charset=utf-8");
+        }
+
+        @Override
+        public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+            HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
         }
     }
 
@@ -56,18 +70,18 @@ public class PlatformMvcConfig implements WebMvcConfigurer {
                     return true;
                 }
             }
-            Object usernameAttr = session.getAttribute("username");
-            if (usernameAttr == null || !StringUtils.hasText(usernameAttr.toString())) {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Login required");
+            String auth = request.getHeader("Authorization");
+            if (!StringUtils.hasText(auth) || !auth.startsWith("Bearer ")) {
                 return false;
             }
-            String token = request.getHeader("Authorization");
+            String token = auth.split("\\s+")[1];
             if (!StringUtils.hasText(token)) {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Authorization header missing");
                 return false;
             }
             try {
-                if (JWTUtil.validateToken(token, usernameAttr.toString())) {
+                String username = JWTUtil.getUsernameFromToken(token);
+                if (JWTUtil.isTokenExpired(token) || userService.getById(username) == null) {
                     response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid token");
                     return false;
                 }

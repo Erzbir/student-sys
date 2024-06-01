@@ -112,10 +112,12 @@ public class EventChannelImpl<E extends Event> extends EventChannel<E> {
     private void process(ListenerDescription listenerDescription, E event) {
         Listener<?> listener = listenerDescription.listener();
 //        log.debug("Broadcasting event: {} to listener: {}", event, listener.getClass().getSimpleName());
-        Thread invokeThread = Thread.ofVirtual()
-                .name("Listener-Invoke-Thread")
-                .unstarted(createInvokeRunnable(event, listener));
+        Thread invokeThread = new Thread(createInvokeRunnable(event, listener), "Listener-Invoke-Thread");
         invokeThread.start();
+//        Thread invokeThread = Thread.ofVirtual()
+//                .name("Listener-Invoke-Thread")
+//                .unstarted(createInvokeRunnable(event, listener));
+//        invokeThread.start();
         taskMap.put(listener, invokeThread);
     }
 
