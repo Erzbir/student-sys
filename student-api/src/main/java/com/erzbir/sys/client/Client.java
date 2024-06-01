@@ -19,21 +19,19 @@ import java.util.List;
  */
 public class Client {
     public static final Client INSTANCE = new Client();
-    private OkHttpClient client;
-    private String server;
+    private final OkHttpClient client;
     private final MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
 
     private Client() {
         client = new OkHttpClient.Builder()
                 .callTimeout(Duration.ofSeconds(5))
                 .build();
-        this.server = DefaultApplication.INSTANCE.getSetting().getServer();
     }
 
     private Request.Builder create0(String path) {
         return new Request.Builder()
                 .header("Content-Type", "application/json; charset=utf-8")
-                .url("http://" + server + "/" + path);
+                .url("http://" + DefaultApplication.INSTANCE.getSetting().getServer() + "/" + path);
     }
 
     private Request createPost(String path, String body) {
@@ -44,7 +42,7 @@ public class Client {
     private Request createGet(String path, String params) {
         Request.Builder builder = create0(path);
         if (params != null && !params.isEmpty()) {
-            builder.url("http://" + server + "/" + path + "?" + params);
+            builder.url("http://" + DefaultApplication.INSTANCE.getSetting().getServer() + "/" + path + "?" + params);
         }
         return builder.get().build();
     }
