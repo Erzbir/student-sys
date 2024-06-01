@@ -47,11 +47,11 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
     public void onBindViewHolder(@NonNull StudentViewHolder holder, int position) {
         Student student = studentList.get(position);
         holder.bind(student, onItemClickListener);
-        registerListener();
+//        registerListener();
         holder.b_delete.setOnClickListener(v -> {
             StudentManageComponent component = AndroidApplication.INSTANCE.APP.getComponent(StudentManageComponent.class);
             component.remove(student);
-//            studentList.remove(position);
+            studentList.remove(position);
             notifyDataSetChanged();
         });
     }

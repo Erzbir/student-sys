@@ -15,6 +15,7 @@ import com.erzbir.sys.event.StudentAddEvent;
 import com.erzbir.sys.event.StudentDeleteEvent;
 import com.erzbir.sys.event.StudentUpdateEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,6 +25,7 @@ import java.util.List;
 @Component
 public class DefaultStudentManageComponent extends AbstractComponent implements StudentManageComponent {
     private final Client client = Client.INSTANCE;
+    private final List<Student> students = new ArrayList<>();
 
     @Override
     public void add(Student student) {
@@ -51,7 +53,11 @@ public class DefaultStudentManageComponent extends AbstractComponent implements 
 
     @Override
     public List<Student> getStudents() {
-        return client.queryAllStudents(new QueryReqs.QueryAllStudents()).getData();
+        if (!students.isEmpty()) {
+            return students;
+        }
+        students.addAll(client.queryAllStudents(new QueryReqs.QueryAllStudents()).getData());
+        return students;
     }
 
     @Override

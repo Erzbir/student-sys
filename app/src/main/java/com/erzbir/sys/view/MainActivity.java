@@ -45,7 +45,7 @@ public class MainActivity extends PrivilegeActivity {
     @Override
     protected void initLast() {
         updateStudentInfo();
-        registerListener();
+//        registerListener();
     }
 
     private void registerListener() {
@@ -57,7 +57,7 @@ public class MainActivity extends PrivilegeActivity {
             } else if (StudentDeleteEvent.class.equals(eventClass)) {
                 studentList.remove(source);
             }
-            tv_totalCount.setText("Total Students: " + studentList.size());
+//            tv_totalCount.setText("Total Students: " + studentList.size());
 
             return StandardListenerResult.CONTINUE;
         });
@@ -76,10 +76,7 @@ public class MainActivity extends PrivilegeActivity {
         ll_majors = findViewById(R.id.ll_majors);
         b_manage = findViewById(R.id.b_manage);
         StudentManageComponent component = AndroidApplication.INSTANCE.APP.getComponent(StudentManageComponent.class);
-        List<Student> students = component.getStudents();
-        if (students != null && !students.isEmpty()) {
-            studentList.addAll(students);
-        }
+        studentList = component.getStudents();
     }
 
     private void updateStudentInfo() {
