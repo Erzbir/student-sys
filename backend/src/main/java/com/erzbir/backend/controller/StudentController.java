@@ -12,7 +12,7 @@ import java.util.List;
  * @Data: 2024/5/29 09:53
  */
 @RestController
-@RequestMapping("/stu")
+@RequestMapping("/student")
 public class StudentController {
     private final StudentService studentService;
 
