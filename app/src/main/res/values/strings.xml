@@ -31,4 +31,5 @@
     <string name="logo">LOGO</string>
     <string name="set_server">Set Server</string>
     <string name="server">Server</string>
+    <string name="setting">Setting</string>
 </resources>

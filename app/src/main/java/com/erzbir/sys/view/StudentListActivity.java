@@ -8,6 +8,7 @@ import com.erzbir.sys.R;
 import com.erzbir.sys.activity.StudentDetailActivity;
 import com.erzbir.sys.adapter.StudentAdapter;
 import com.erzbir.sys.common.AppActivity;
+import com.erzbir.sys.common.PrivilegeActivity;
 import com.erzbir.sys.entity.Student;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import java.util.List;
  * @author Erzbir
  * @Data: 2024/5/30 17:25
  */
-public class StudentListActivity extends AppActivity {
+public class StudentListActivity extends PrivilegeActivity {
 
     private RecyclerView rv_students;
     private Button b_add;

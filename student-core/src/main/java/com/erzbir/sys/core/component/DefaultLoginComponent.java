@@ -1,6 +1,5 @@
 package com.erzbir.sys.core.component;
 
-import cn.hutool.core.util.StrUtil;
 import com.erzbir.sys.annotation.Component;
 import com.erzbir.sys.client.Client;
 import com.erzbir.sys.client.req.LoginReq;
@@ -23,7 +22,7 @@ public class DefaultLoginComponent extends AbstractComponent implements LoginCom
         broadcastEvent(new UserLoginEvent(user));
         Response<String> resp = client.login(new LoginReq(user));
         String data = resp.getData();
-        return StrUtil.isNotBlank(data);
+        return data != null && !data.isEmpty() && !data.isBlank();
     }
 
     @Override

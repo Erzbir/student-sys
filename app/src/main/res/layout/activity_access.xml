@@ -63,6 +63,15 @@
             android:textColor="@color/white"
             android:layout_below="@id/b_login"
             android:layout_marginTop="15dp"/>
+    <Button
+            android:id="@+id/b_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/setting"
+            android:background="@drawable/button_background"
+            android:textColor="@color/white"
+            android:layout_below="@id/b_register"
+            android:layout_marginTop="15dp"/>
 
 
 </RelativeLayout>

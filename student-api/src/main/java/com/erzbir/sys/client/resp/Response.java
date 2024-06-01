@@ -1,7 +1,6 @@
 package com.erzbir.sys.client.resp;
 
 
-import cn.hutool.http.HttpStatus;
 
 import java.io.Serializable;
 
@@ -36,11 +35,11 @@ public class Response<T> implements Serializable {
     }
 
     public static <T> Response<T> ok(T data) {
-        return new Response<>(true, HttpStatus.HTTP_OK, "success", data);
+        return new Response<>(true, 200, "success", data);
     }
 
     public static <T> Response<T> ok(T data, String msg) {
-        return new Response<>(true, HttpStatus.HTTP_OK, msg, data);
+        return new Response<>(true, 200, msg, data);
     }
 
     public static <T> Response<T> ok(T data, Integer code, String msg) {
@@ -48,11 +47,11 @@ public class Response<T> implements Serializable {
     }
 
     public static <T> Response<T> error(String msg) {
-        return new Response<>(false, HttpStatus.HTTP_BAD_REQUEST, msg, null);
+        return new Response<>(false, 400, msg, null);
     }
 
     public static <T> Response<T> error(T data, String msg) {
-        return new Response<>(false, HttpStatus.HTTP_BAD_REQUEST, msg, data);
+        return new Response<>(false, 400, msg, data);
     }
 
     public static <T> Response<T> error(Integer code, String msg) {

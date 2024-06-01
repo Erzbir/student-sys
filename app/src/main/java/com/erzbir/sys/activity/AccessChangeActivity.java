@@ -7,7 +7,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.erzbir.sys.AndroidApplication;
 import com.erzbir.sys.R;
-import com.erzbir.sys.common.AppActivity;
+import com.erzbir.sys.common.PrivilegeActivity;
 import com.erzbir.sys.component.UserManageComponent;
 import com.erzbir.sys.entity.User;
 import com.erzbir.sys.util.SavedUser;
@@ -17,7 +17,7 @@ import com.erzbir.sys.view.SettingActivity;
  * @author Erzbir
  * @Data: 2024/5/29
  */
-public class AccessChangeActivity extends AppActivity {
+public class AccessChangeActivity extends PrivilegeActivity {
     private Button b_change;
     private Button b_cancel;
     private TextView et_oldPassword;

@@ -1,16 +1,17 @@
 package com.erzbir.sys.client;
 
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
+
 import com.erzbir.sys.application.DefaultApplication;
 import com.erzbir.sys.client.req.*;
 import com.erzbir.sys.client.resp.Response;
 import com.erzbir.sys.entity.Student;
 import com.erzbir.sys.entity.User;
+import com.erzbir.sys.util.JSONUtil;
 import com.erzbir.sys.util.JWTUtil;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import okhttp3.*;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
 
@@ -22,34 +23,32 @@ import java.util.List;
 public class Client {
     public static final Client INSTANCE = new Client();
     private final OkHttpClient client;
-    private final MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
-    private String token;
+    private final String mediaType = "application/json; charset=utf-8";
+    private String token = "";
 
     private Client() {
-        client = new OkHttpClient.Builder()
-                .callTimeout(Duration.ofSeconds(5))
-                .build();
+        client = new OkHttpClient.Builder().callTimeout(Duration.ofSeconds(5)).build();
     }
 
     private Request.Builder create0(String path) {
-        if (JWTUtil.isTokenExpired(token)) {
+        if (token != null && !token.isEmpty() && !token.isBlank() && JWTUtil.isTokenExpired(token)) {
             throw new RuntimeException();
         }
         return new Request.Builder()
-                .header("Content-Type", "application/json; charset=utf-8")
+                .header("Content-Type", mediaType)
                 .header("Authorization", token)
-                .url("http://" + DefaultApplication.INSTANCE.getSetting().getServer() + "/" + path);
+                .url("http://" + DefaultApplication.INSTANCE.getSetting().getServer() + path);
     }
 
     private Request createPost(String path, String body) {
         Request.Builder builder = create0(path);
-        return builder.post(RequestBody.create(body, mediaType)).build();
+        return builder.post(RequestBody.create(body, MediaType.parse(mediaType))).build();
     }
 
     private Request createGet(String path, String params) {
         Request.Builder builder = create0(path);
         if (params != null && !params.isEmpty()) {
-            builder.url("http://" + DefaultApplication.INSTANCE.getSetting().getServer() + "/" + path + "?" + params);
+            builder.url("http://" + DefaultApplication.INSTANCE.getSetting().getServer() + path + "?" + params);
         }
         return builder.get().build();
     }
@@ -61,10 +60,10 @@ public class Client {
                 return JSONUtil.toBean(responseBody.string(), Response.class);
             }
 
-        } catch (IOException e) {
-            return Response.error(e.getMessage());
+        } catch (Exception e) {
+            return Response.error("", e.getMessage());
         }
-        return Response.error("error");
+        return Response.error("", "error");
     }
 
     private Response<?> post(String path, String body) {
@@ -79,11 +78,16 @@ public class Client {
 
     public Response<String> login(LoginReq loginReq) {
         Response<?> resp = post(Apis.AUTH.LOGIN.path(), JSONUtil.toJsonStr(loginReq.user()));
-        JSONObject jsonObject = JSONUtil.parseObj(resp.getData());
-        if (jsonObject.isEmpty()) {
-            return Response.blank();
+        Object data = resp.getData();
+        if (data == null) {
+            return Response.error("Null data");
         }
-        String token = jsonObject.getStr("token");
+        String string = data.toString();
+        JsonObject jsonObject = JsonParser.parseString(string).getAsJsonObject();
+        if (jsonObject.isEmpty()) {
+            return Response.error("Parse json error");
+        }
+        String token = jsonObject.get("token").getAsString();
         this.token = token;
         return Response.ok(token);
     }
@@ -102,16 +106,16 @@ public class Client {
 
     public Response<Student> queryStudentById(QueryReqs.QueryStudentById queryStudentByIdReq) {
         Response<?> response = get(Apis.Student.Query.ONE.path(), "id=" + queryStudentByIdReq.id());
-        JSONObject jsonObject = JSONUtil.parseObj(response.getData());
-        if (jsonObject.isEmpty()) {
+        Student student = JSONUtil.toBean(response.getData().toString(), Student.class);
+        if (student == null) {
             return Response.error("response is empty");
         }
-        return Response.ok(jsonObject.getBean("data", Student.class));
+        return Response.ok(student);
     }
 
     public Response<List<Student>> queryAllStudents(QueryReqs.QueryAllStudents queryAllStudentsReq) {
         Response<?> response = get(Apis.Student.Query.ALL.path(), null);
-        return Response.ok(JSONUtil.toList(JSONUtil.parseArray(response.getData()), Student.class));
+        return Response.ok(JSONUtil.toList(response.getData().toString(), Student.class));
     }
 
     public Response<?> register(AddReqs.AddUser addUserReq) {
@@ -128,16 +132,16 @@ public class Client {
 
     public Response<User> queryUserByName(QueryReqs.QueryUserByName queryUserByNameReq) {
         Response<?> response = get(Apis.User.Query.ONE.path(), "username=" + queryUserByNameReq.username());
-        JSONObject jsonObject = JSONUtil.parseObj(response.getData());
-        if (jsonObject.isEmpty()) {
+        User user = JSONUtil.toBean(response.getData().toString(), User.class);
+        if (user == null) {
             return Response.error("response is empty");
         }
-        return Response.ok(jsonObject.getBean("data", User.class));
+        return Response.ok(user);
     }
 
     public Response<List<User>> queryAllUsers(QueryReqs.QueryAllUsers queryAllUsersReq) {
         Response<?> response = get(Apis.User.Query.ALL.path(), null);
-        return Response.ok(JSONUtil.toList(JSONUtil.parseArray(response.getData()), User.class));
+        return Response.ok(JSONUtil.toList(response.getData().toString(), User.class));
     }
 
 
@@ -152,34 +156,34 @@ interface Apis {
     }
 
     interface AUTH {
-        POST LOGIN = new POST("/auth/login/");
+        POST LOGIN = new POST("/auth/login");
     }
 
     interface Student {
-        POST UPDATE = new POST("/student/update/");
+        POST UPDATE = new POST("/student/update");
 
-        POST ADD = new POST("/student/add/");
+        POST ADD = new POST("/student/add");
 
-        GET DELETE = new GET("/student/delete/");
+        GET DELETE = new GET("/student/delete");
 
         interface Query {
-            GET ONE = new GET("/student/get/");
-            GET ALL = new GET("/student/list/");
+            GET ONE = new GET("/student/get");
+            GET ALL = new GET("/student/list");
         }
 
     }
 
     interface User {
-        POST UPDATE = new POST("/user/update/");
+        POST UPDATE = new POST("/user/update");
 
-        POST ADD = new POST("/user/add/");
+        POST ADD = new POST("/user/add");
 
-        GET DELETE = new GET("/user/delete/");
+        GET DELETE = new GET("/user/delete");
 
 
         interface Query {
-            GET ONE = new GET("/user/get/");
-            GET ALL = new GET("/user/list/");
+            GET ONE = new GET("/user/get");
+            GET ALL = new GET("/user/list");
         }
 
     }

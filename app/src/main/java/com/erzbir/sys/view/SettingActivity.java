@@ -1,10 +1,10 @@
 package com.erzbir.sys.view;
 
 import android.content.Intent;
-import android.view.KeyEvent;
 import android.widget.Button;
 import com.erzbir.sys.R;
 import com.erzbir.sys.activity.AccessChangeActivity;
+import com.erzbir.sys.activity.EditServerActivity;
 import com.erzbir.sys.common.AppActivity;
 
 /**
@@ -59,26 +59,19 @@ public class SettingActivity extends AppActivity {
         });
     }
 
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent keyEvent) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && keyEvent.getRepeatCount() == 0) {
-            Intent intent = new Intent(SettingActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
-        return super.onKeyDown(keyCode, keyEvent);
-    }
-
     private void setServerOnClick() {
         b_server.setOnClickListener(v -> {
-
+            Intent intent = new Intent(SettingActivity.this, EditServerActivity.class);
+            startActivity(intent);
+            finish();
         });
     }
 
     private void setCancelOnClick() {
         b_cancel.setOnClickListener(v -> {
-            // Save student details logic
+            Intent intent = new Intent(SettingActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
         });
     }
 }

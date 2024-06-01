@@ -42,6 +42,12 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "META-INF/DEPENDENCIES"
+            excludes += "META-INF/NOTICE"
+            excludes += "META-INF/LICENSE"
+            excludes += "META-INF/LICENSE.txt"
+            excludes += "META-INF/NOTICE.txt"
+            excludes += "META-INF/INDEX.LIST"
         }
     }
 }
@@ -70,10 +76,5 @@ dependencies {
     runtimeOnly(project(":student-core"))
     implementation(project(":dispatcher-api"))
     runtimeOnly(project(":dispatcher-core"))
-
-    implementation("cn.hutool:hutool-core:5.8.27")
-    implementation("cn.hutool:hutool-json:5.8.27")
-    implementation("cn.hutool:hutool-http:5.8.27")
-    implementation("cn.hutool:hutool-jwt:5.8.27")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
 }

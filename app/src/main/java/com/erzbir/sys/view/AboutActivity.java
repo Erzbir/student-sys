@@ -35,14 +35,4 @@ public class AboutActivity extends AppActivity {
     protected void initLast() {
 
     }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent keyEvent) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && keyEvent.getRepeatCount() == 0) {
-            Intent intent = new Intent(AboutActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
-        return super.onKeyDown(keyCode, keyEvent);
-    }
 }

@@ -5,13 +5,14 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import com.erzbir.sys.R;
 import com.erzbir.sys.common.AppActivity;
+import com.erzbir.sys.common.PrivilegeActivity;
 import com.erzbir.sys.entity.Student;
 
 /**
  * @author Erzbir
  * @Data: 2024/5/30 17:24
  */
-public class StudentDetailActivity extends AppActivity {
+public class StudentDetailActivity extends PrivilegeActivity {
 
     private EditText et_id;
     private EditText et_name;

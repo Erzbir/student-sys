@@ -6,7 +6,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.erzbir.sys.R;
 import com.erzbir.sys.common.AppActivity;
+import com.erzbir.sys.common.PrivilegeActivity;
 import com.erzbir.sys.entity.Student;
+import com.erzbir.sys.util.SavedUser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,7 +19,7 @@ import java.util.Map;
  * @author Erzbir
  * @Data: 2024/5/29
  */
-public class MainActivity extends AppActivity {
+public class MainActivity extends PrivilegeActivity {
     private TextView tv_totalCount;
     private LinearLayout ll_majors;
     private Button b_manage;

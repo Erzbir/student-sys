@@ -23,7 +23,7 @@ public class ScanUtil {
         Set<Class<?>> classes = new HashSet<>();
         for (ApplicationInfo packageInfo : packages) {
             try {
-                if (!packageInfo.packageName.equals("com.erzbir.student")) {
+                if (!packageInfo.packageName.equals("com.erzbir.sys")) {
                     continue;
                 }
                 String packageName = packageInfo.packageName;
@@ -32,8 +32,8 @@ public class ScanUtil {
                 DexClassLoader classLoader = new DexClassLoader(packagePath, context.getCacheDir().getAbsolutePath(), null, context.getClass().getClassLoader());
                 List<String> classNames = getClassNames(packagePath);
                 classNames.stream()
-                        .filter(className -> className.startsWith("com.erzbir.student"))
-                        .filter(className -> className.substring(className.lastIndexOf(".")).startsWith(".R$"))
+                        .filter(className -> className.startsWith("com.erzbir.sys"))
+                        .filter(className -> !className.substring(className.lastIndexOf(".")).startsWith(".R$"))
                         .forEach(className -> {
                             Log.d(TAG, "Class Name: " + className);
                             try {

@@ -7,6 +7,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import com.erzbir.sys.R;
 import com.erzbir.sys.common.AppActivity;
+import com.erzbir.sys.common.PrivilegeActivity;
 import com.erzbir.sys.entity.Student;
 import com.erzbir.sys.view.MainActivity;
 
@@ -14,7 +15,7 @@ import com.erzbir.sys.view.MainActivity;
  * @author Erzbir
  * @Data: 2024/5/29
  */
-public class EditStudentActivity extends AppActivity {
+public class EditStudentActivity extends PrivilegeActivity {
     private Student student;
     private Spinner sp_gender;
     private EditText et_name;
@@ -40,16 +41,6 @@ public class EditStudentActivity extends AppActivity {
     private void initFromExtra() {
         student = getIntent().getSerializableExtra("stu", Student.class);
         et_name.setText(student.getName());
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent keyEvent) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && keyEvent.getRepeatCount() == 0) {
-            Intent intent = new Intent(EditStudentActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
-        return super.onKeyDown(keyCode, keyEvent);
     }
 
     @Override

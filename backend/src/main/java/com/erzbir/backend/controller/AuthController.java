@@ -1,5 +1,6 @@
 package com.erzbir.backend.controller;
 
+import cn.hutool.json.JSONUtil;
 import com.erzbir.backend.entity.User;
 import com.erzbir.backend.service.UserService;
 import com.erzbir.backend.util.JWTUtil;
@@ -11,6 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Erzbir
@@ -36,7 +40,9 @@ public class AuthController {
         }
         HttpSession session = request.getSession();
         String token = JWTUtil.createToken(User.builder().username(user.getUsername()).build(), 2);
+        Map<String, String> map = new HashMap<>();
+        map.put("token", token);
         session.setAttribute("username", user.getUsername());
-        return Response.ok(token);
+        return Response.ok(JSONUtil.toJsonStr(map));
     }
 }
