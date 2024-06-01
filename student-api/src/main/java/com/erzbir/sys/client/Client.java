@@ -4,6 +4,7 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.erzbir.sys.application.DefaultApplication;
 import com.erzbir.sys.client.req.*;
+import com.erzbir.sys.client.resp.Response;
 import com.erzbir.sys.entity.Student;
 import com.erzbir.sys.entity.User;
 import okhttp3.*;
@@ -47,89 +48,89 @@ public class Client {
         return builder.get().build();
     }
 
-    private com.erzbir.sys.client.resp.Response<?> doCall(Call call) {
+    private Response<?> doCall(Call call) {
         try (okhttp3.Response response = call.execute()) {
             ResponseBody responseBody = response.body();
             if (responseBody != null) {
-                return JSONUtil.toBean(responseBody.string(), com.erzbir.sys.client.resp.Response.class);
+                return JSONUtil.toBean(responseBody.string(), Response.class);
             }
 
         } catch (IOException e) {
-            return com.erzbir.sys.client.resp.Response.error(e.getMessage());
+            return Response.error(e.getMessage());
         }
-        return com.erzbir.sys.client.resp.Response.error("error");
+        return Response.error("error");
     }
 
-    private com.erzbir.sys.client.resp.Response<?> post(String path, String body) {
+    private Response<?> post(String path, String body) {
         Call call = client.newCall(createPost(path, body));
         return doCall(call);
     }
 
-    private com.erzbir.sys.client.resp.Response<?> get(String path, String params) {
+    private Response<?> get(String path, String params) {
         Call call = client.newCall(createGet(path, params));
         return doCall(call);
     }
 
-    public com.erzbir.sys.client.resp.Response<String> login(LoginReq loginReq) {
-        com.erzbir.sys.client.resp.Response<?> resp = post(Apis.AUTH.LOGIN.path(), JSONUtil.toJsonStr(loginReq.user()));
+    public Response<String> login(LoginReq loginReq) {
+        Response<?> resp = post(Apis.AUTH.LOGIN.path(), JSONUtil.toJsonStr(loginReq.user()));
         JSONObject jsonObject = JSONUtil.parseObj(resp.getData());
         if (jsonObject.isEmpty()) {
-            return com.erzbir.sys.client.resp.Response.blank();
+            return Response.blank();
         }
         String token = jsonObject.getStr("token");
-        return com.erzbir.sys.client.resp.Response.ok(token);
+        return Response.ok(token);
     }
 
-    public com.erzbir.sys.client.resp.Response<?> addStudent(AddReqs.AddStudent addStudentReq) {
+    public Response<?> addStudent(AddReqs.AddStudent addStudentReq) {
         return post(Apis.Student.ADD.path(), JSONUtil.toJsonStr(addStudentReq.student()));
     }
 
-    public com.erzbir.sys.client.resp.Response<?> updateStudent(UpdateReqs.UpdateStudent updateStudentReq) {
+    public Response<?> updateStudent(UpdateReqs.UpdateStudent updateStudentReq) {
         return post(Apis.Student.UPDATE.path(), JSONUtil.toJsonStr(updateStudentReq.student()));
     }
 
-    public com.erzbir.sys.client.resp.Response<?> deleteStudent(DeleteReqs.DeleteStudent deleteStudentReq) {
+    public Response<?> deleteStudent(DeleteReqs.DeleteStudent deleteStudentReq) {
         return get(Apis.Student.DELETE.path(), "id=" + deleteStudentReq.id());
     }
 
-    public com.erzbir.sys.client.resp.Response<Student> queryStudentById(QueryReqs.QueryStudentById queryStudentByIdReq) {
-        com.erzbir.sys.client.resp.Response<?> response = get(Apis.Student.Query.ONE.path(), "id=" + queryStudentByIdReq.id());
+    public Response<Student> queryStudentById(QueryReqs.QueryStudentById queryStudentByIdReq) {
+        Response<?> response = get(Apis.Student.Query.ONE.path(), "id=" + queryStudentByIdReq.id());
         JSONObject jsonObject = JSONUtil.parseObj(response.getData());
         if (jsonObject.isEmpty()) {
-            return com.erzbir.sys.client.resp.Response.error("response is empty");
+            return Response.error("response is empty");
         }
-        return com.erzbir.sys.client.resp.Response.ok(jsonObject.getBean("data", Student.class));
+        return Response.ok(jsonObject.getBean("data", Student.class));
     }
 
-    public com.erzbir.sys.client.resp.Response<List<Student>> queryAllStudents(QueryReqs.QueryAllStudents queryAllStudentsReq) {
-        com.erzbir.sys.client.resp.Response<?> response = get(Apis.Student.Query.ALL.path(), null);
-        return com.erzbir.sys.client.resp.Response.ok(JSONUtil.toList(JSONUtil.parseArray(response.getData()), Student.class));
+    public Response<List<Student>> queryAllStudents(QueryReqs.QueryAllStudents queryAllStudentsReq) {
+        Response<?> response = get(Apis.Student.Query.ALL.path(), null);
+        return Response.ok(JSONUtil.toList(JSONUtil.parseArray(response.getData()), Student.class));
     }
 
-    public com.erzbir.sys.client.resp.Response<?> register(AddReqs.AddUser addUserReq) {
+    public Response<?> register(AddReqs.AddUser addUserReq) {
         return post(Apis.User.ADD.path(), JSONUtil.toJsonStr(addUserReq.user()));
     }
 
-    public com.erzbir.sys.client.resp.Response<?> updateUser(UpdateReqs.UpdateUser updateUserReq) {
+    public Response<?> updateUser(UpdateReqs.UpdateUser updateUserReq) {
         return post(Apis.User.UPDATE.path(), JSONUtil.toJsonStr(updateUserReq.user()));
     }
 
-    public com.erzbir.sys.client.resp.Response<?> deleteUser(DeleteReqs.DeleteUser deleteUserReq) {
+    public Response<?> deleteUser(DeleteReqs.DeleteUser deleteUserReq) {
         return get(Apis.User.DELETE.path(), "id=" + deleteUserReq.id());
     }
 
-    public com.erzbir.sys.client.resp.Response<User> queryUserByName(QueryReqs.QueryUserByName queryUserByNameReq) {
-        com.erzbir.sys.client.resp.Response<?> response = get(Apis.User.Query.ONE.path(), "username=" + queryUserByNameReq.username());
+    public Response<User> queryUserByName(QueryReqs.QueryUserByName queryUserByNameReq) {
+        Response<?> response = get(Apis.User.Query.ONE.path(), "username=" + queryUserByNameReq.username());
         JSONObject jsonObject = JSONUtil.parseObj(response.getData());
         if (jsonObject.isEmpty()) {
-            return com.erzbir.sys.client.resp.Response.error("response is empty");
+            return Response.error("response is empty");
         }
-        return com.erzbir.sys.client.resp.Response.ok(jsonObject.getBean("data", User.class));
+        return Response.ok(jsonObject.getBean("data", User.class));
     }
 
-    public com.erzbir.sys.client.resp.Response<List<User>> queryAllUsers(QueryReqs.QueryAllUsers queryAllUsersReq) {
-        com.erzbir.sys.client.resp.Response<?> response = get(Apis.User.Query.ALL.path(), null);
-        return com.erzbir.sys.client.resp.Response.ok(JSONUtil.toList(JSONUtil.parseArray(response.getData()), User.class));
+    public Response<List<User>> queryAllUsers(QueryReqs.QueryAllUsers queryAllUsersReq) {
+        Response<?> response = get(Apis.User.Query.ALL.path(), null);
+        return Response.ok(JSONUtil.toList(JSONUtil.parseArray(response.getData()), User.class));
     }
 
 
