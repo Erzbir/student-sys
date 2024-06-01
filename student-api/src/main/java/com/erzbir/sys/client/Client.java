@@ -168,7 +168,7 @@ interface Apis {
     interface User {
         POST UPDATE = new POST("/user/update/");
 
-        POST ADD = new POST("/user/register/");
+        POST ADD = new POST("/user/add/");
 
         GET DELETE = new GET("/user/delete/");
 

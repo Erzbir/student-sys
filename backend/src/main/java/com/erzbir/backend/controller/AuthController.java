@@ -29,7 +29,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public Response<String> login(@RequestParam("username") String username, @RequestParam("password") String password) {
+    public Response<String> login(@RequestParam String username, @RequestParam String password) {
         Boolean auth = userService.auth(username, password);
         if (!auth) {
             return Response.error("认证失败");
