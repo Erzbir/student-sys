@@ -4,7 +4,6 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.erzbir.sys.application.DefaultApplication;
 import com.erzbir.sys.client.req.*;
-import com.erzbir.sys.client.resp.LoginResp;
 import com.erzbir.sys.entity.Student;
 import com.erzbir.sys.entity.User;
 import okhttp3.*;
@@ -73,15 +72,14 @@ public class Client {
         return doCall(call);
     }
 
-    public LoginResp login(LoginReq loginReq) {
+    public com.erzbir.sys.client.resp.Response<String> login(LoginReq loginReq) {
         com.erzbir.sys.client.resp.Response<?> resp = post(Apis.AUTH.LOGIN.path(), JSONUtil.toJsonStr(loginReq.user()));
         JSONObject jsonObject = JSONUtil.parseObj(resp.getData());
         if (jsonObject.isEmpty()) {
-            return new LoginResp("", "");
+            return com.erzbir.sys.client.resp.Response.blank();
         }
         String token = jsonObject.getStr("token");
-        String username = jsonObject.getStr("username");
-        return new LoginResp(token, username);
+        return com.erzbir.sys.client.resp.Response.ok(token);
     }
 
     public com.erzbir.sys.client.resp.Response<?> addStudent(AddReqs.AddStudent addStudentReq) {
