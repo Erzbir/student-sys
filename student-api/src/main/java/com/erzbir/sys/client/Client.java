@@ -7,6 +7,7 @@ import com.erzbir.sys.client.req.*;
 import com.erzbir.sys.client.resp.Response;
 import com.erzbir.sys.entity.Student;
 import com.erzbir.sys.entity.User;
+import com.erzbir.sys.util.JWTUtil;
 import okhttp3.*;
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ public class Client {
     public static final Client INSTANCE = new Client();
     private final OkHttpClient client;
     private final MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
+    private String token;
 
     private Client() {
         client = new OkHttpClient.Builder()
@@ -30,8 +32,12 @@ public class Client {
     }
 
     private Request.Builder create0(String path) {
+        if (JWTUtil.isTokenExpired(token)) {
+            throw new RuntimeException();
+        }
         return new Request.Builder()
                 .header("Content-Type", "application/json; charset=utf-8")
+                .header("Authorization", token)
                 .url("http://" + DefaultApplication.INSTANCE.getSetting().getServer() + "/" + path);
     }
 
@@ -78,6 +84,7 @@ public class Client {
             return Response.blank();
         }
         String token = jsonObject.getStr("token");
+        this.token = token;
         return Response.ok(token);
     }
 

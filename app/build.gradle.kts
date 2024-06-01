@@ -74,5 +74,6 @@ dependencies {
     implementation("cn.hutool:hutool-core:5.8.27")
     implementation("cn.hutool:hutool-json:5.8.27")
     implementation("cn.hutool:hutool-http:5.8.27")
+    implementation("cn.hutool:hutool-jwt:5.8.27")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
 }

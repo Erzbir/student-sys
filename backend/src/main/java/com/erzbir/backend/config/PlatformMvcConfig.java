@@ -1,6 +1,5 @@
 package com.erzbir.backend.config;
 
-import com.erzbir.backend.entity.User;
 import com.erzbir.backend.service.UserService;
 import com.erzbir.backend.util.JWTUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,7 +26,17 @@ public class PlatformMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         AccessInterceptor accessInterceptor = new AccessInterceptor(userService);
+        HeaderInterceptor headerInterceptor = new HeaderInterceptor();
+        registry.addInterceptor(headerInterceptor).addPathPatterns("/**");
         registry.addInterceptor(accessInterceptor).addPathPatterns("/**");
+    }
+
+    static class HeaderInterceptor implements HandlerInterceptor {
+        @Override
+        public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+            String header = request.getHeader("Content-Type");
+            return StringUtils.hasText(header) && header.contains("application/json");
+        }
     }
 
     static class AccessInterceptor implements HandlerInterceptor {
@@ -58,13 +67,12 @@ public class PlatformMvcConfig implements WebMvcConfigurer {
                 return false;
             }
             try {
-                String username = JWTUtil.parseToken(token);
-                User user = userService.getById(username);
-                if (user == null) {
+                if (JWTUtil.validateToken(token, usernameAttr.toString())) {
                     response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid token");
                     return false;
                 }
             } catch (Exception e) {
+                e.printStackTrace();
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Token parsing failed");
                 return false;
             }

@@ -9,6 +9,7 @@ dependencies {
     runtimeOnly(project(":dispatcher-core"))
     compileOnly("cn.hutool:hutool-core:5.8.27")
     compileOnly("cn.hutool:hutool-json:5.8.27")
+    compileOnly("cn.hutool:hutool-jwt:5.8.27")
     compileOnly("cn.hutool:hutool-http:5.8.27")
     compileOnly("com.squareup.okhttp3:okhttp:4.12.0")
 

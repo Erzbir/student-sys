@@ -17,12 +17,14 @@ import com.erzbir.sys.event.UserLoginEvent;
 @Component
 public class DefaultLoginComponent extends AbstractComponent implements LoginComponent {
     private final Client client = Client.INSTANCE;
+    private String token;
 
     @Override
     public boolean login(User user) {
         broadcastEvent(new UserLoginEvent(user));
         Response<String> resp = client.login(new LoginReq(user));
-        return StrUtil.isNotBlank(resp.getData());
+        String data = resp.getData();
+        return StrUtil.isNotBlank(data);
     }
 
     @Override

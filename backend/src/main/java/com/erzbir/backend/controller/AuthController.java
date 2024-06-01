@@ -8,8 +8,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -29,14 +29,14 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public Response<String> login(@RequestParam String username, @RequestParam String password) {
-        Boolean auth = userService.auth(username, password);
+    public Response<String> login(@RequestBody User user) {
+        Boolean auth = userService.auth(user.getUsername(), user.getPassword());
         if (!auth) {
             return Response.error("认证失败");
         }
         HttpSession session = request.getSession();
-        String token = JWTUtil.createToken(User.builder().username(username).build());
-        session.setAttribute("username", username);
+        String token = JWTUtil.createToken(User.builder().username(user.getUsername()).build(), 2);
+        session.setAttribute("username", user.getUsername());
         return Response.ok(token);
     }
 }
