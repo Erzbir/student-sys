@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.erzbir.student"
+    namespace = "com.erzbir.sys"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.erzbir.student"
+        applicationId = "com.erzbir.sys"
         minSdk = 34
         targetSdk = 34
         versionCode = 1

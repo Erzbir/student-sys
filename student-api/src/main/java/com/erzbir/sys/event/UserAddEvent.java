@@ -1,0 +1,8 @@
+package com.erzbir.sys.event;
+
+/**
+ * @author Erzbir
+ * @Data: 2024/5/29
+ */
+public class UserAddEvent {
+}
