@@ -17,7 +17,6 @@ import com.erzbir.sys.event.UserLoginEvent;
 @Component
 public class DefaultLoginComponent extends AbstractComponent implements LoginComponent {
     private final Client client = Client.INSTANCE;
-    private String token;
 
     @Override
     public boolean login(User user) {
