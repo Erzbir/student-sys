@@ -50,7 +50,7 @@ public class MainActivity extends PrivilegeActivity {
     protected void initLast() {
         updateStudentInfo();
         MethodLocker.lock(String.valueOf(MainActivity.class),
-                () -> runOnUiThread(this::registerListener));
+                this::registerListener);
 
     }
 
@@ -58,10 +58,9 @@ public class MainActivity extends PrivilegeActivity {
         GlobalEventChannel.INSTANCE.subscribeAlways(StudentEvent.class, event -> {
             runOnUiThread(() -> {
                 Student source = event.getSource();
-                Class<? extends StudentEvent> eventClass = event.getClass();
                 if (event instanceof StudentAddEvent || event instanceof StudentUpdateEvent) {
                     studentList.add(source);
-                } else if (StudentDeleteEvent.class.equals(eventClass)) {
+                } else if (event instanceof StudentDeleteEvent) {
                     studentList.remove(source);
                 }
                 updateStudentInfo();

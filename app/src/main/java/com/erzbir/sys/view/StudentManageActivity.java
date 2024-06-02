@@ -13,6 +13,7 @@ import com.erzbir.sys.common.PrivilegeActivity;
 import com.erzbir.sys.component.StudentManageComponent;
 import com.erzbir.sys.entity.Student;
 import com.erzbir.sys.event.StudentEvent;
+import com.erzbir.sys.util.MethodLocker;
 
 import java.util.List;
 
@@ -25,34 +26,39 @@ public class StudentManageActivity extends PrivilegeActivity {
     private RecyclerView rv_students;
     private Button b_add;
     private Button b_cancel;
-    private StudentAdapter studentAdapter;
 
     protected void initView() {
         setContentView(R.layout.activity_student_manage);
         rv_students = findViewById(R.id.rv_students);
-        LinearLayoutManager layout = new LinearLayoutManager(this);
-        rv_students.setLayoutManager(layout);
+        b_add = findViewById(R.id.b_add);
+        b_cancel = findViewById(R.id.b_cancel);
+        updateInfo();
+        MethodLocker.lock(String.valueOf(StudentManageActivity.class), this::registerListener);
+    }
+
+    private void updateInfo() {
         StudentManageComponent component = AndroidApplication.INSTANCE.APP.getComponent(StudentManageComponent.class);
         List<Student> students = component.getStudents();
-        studentAdapter = new StudentAdapter(students, student -> {
+
+        rv_students.removeAllViews();
+
+        LinearLayoutManager layout = new LinearLayoutManager(this);
+        rv_students.setLayoutManager(layout);
+        StudentAdapter studentAdapter = new StudentAdapter(students, student -> {
             Intent intent = new Intent(StudentManageActivity.this, StudentDetailActivity.class);
             intent.putExtra("student", student);
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
 //            finish();
         });
-        GlobalEventChannel.INSTANCE.subscribeAlways(StudentEvent.class, event -> {
-            studentAdapter = new StudentAdapter(AndroidApplication.INSTANCE.APP.getComponent(StudentManageComponent.class).getStudents(), student -> {
-                Intent intent = new Intent(StudentManageActivity.this, StudentDetailActivity.class);
-                intent.putExtra("student", student);
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent);
-//            finish();
-            });
-        });
         rv_students.setAdapter(studentAdapter);
-        b_add = findViewById(R.id.b_add);
-        b_cancel = findViewById(R.id.b_cancel);
+
+    }
+
+    private void registerListener() {
+        GlobalEventChannel.INSTANCE.subscribeAlways(StudentEvent.class, event -> {
+            runOnUiThread(this::updateInfo);
+        });
     }
 
     protected void initOnClickCallback() {
@@ -75,6 +81,7 @@ public class StudentManageActivity extends PrivilegeActivity {
         b_add.setOnClickListener(v -> {
             Intent intent = new Intent(StudentManageActivity.this, StudentDetailActivity.class);
             intent.putExtra("add", 1);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
 //            finish();
         });
