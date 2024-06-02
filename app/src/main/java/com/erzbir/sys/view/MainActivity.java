@@ -6,7 +6,6 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.erzbir.event.GlobalEventChannel;
-import com.erzbir.event.StandardListenerResult;
 import com.erzbir.sys.AndroidApplication;
 import com.erzbir.sys.R;
 import com.erzbir.sys.adapter.MajorAdapter;
@@ -17,6 +16,7 @@ import com.erzbir.sys.event.StudentAddEvent;
 import com.erzbir.sys.event.StudentDeleteEvent;
 import com.erzbir.sys.event.StudentEvent;
 import com.erzbir.sys.event.StudentUpdateEvent;
+import com.erzbir.sys.util.MethodLocker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,12 +29,16 @@ import java.util.Map;
  */
 public class MainActivity extends PrivilegeActivity {
     private TextView tv_totalCount;
-    private RecyclerView ll_majors;
+    private RecyclerView rv_major;
     private Button b_manage;
+    private Button b_setting;
+    private Button b_about;
     private List<Student> studentList = new ArrayList<>();
 
     protected void initOnClickCallback() {
         setManageOnClick();
+        setAboutOnClick();
+        setSettingOnClick();
     }
 
     @Override
@@ -45,27 +49,46 @@ public class MainActivity extends PrivilegeActivity {
     @Override
     protected void initLast() {
         updateStudentInfo();
-//        registerListener();
+        MethodLocker.lock(String.valueOf(MainActivity.class),
+                () -> runOnUiThread(this::registerListener));
+
     }
 
     private void registerListener() {
-        GlobalEventChannel.INSTANCE.subscribe(StudentEvent.class, event -> {
-            Student source = event.getSource();
-            Class<? extends StudentEvent> eventClass = event.getClass();
-            if (StudentAddEvent.class.equals(eventClass) || StudentUpdateEvent.class.equals(eventClass)) {
-                studentList.add(source);
-            } else if (StudentDeleteEvent.class.equals(eventClass)) {
-                studentList.remove(source);
-            }
-//            tv_totalCount.setText("Total Students: " + studentList.size());
-
-            return StandardListenerResult.CONTINUE;
+        GlobalEventChannel.INSTANCE.subscribeAlways(StudentEvent.class, event -> {
+            runOnUiThread(() -> {
+                Student source = event.getSource();
+                Class<? extends StudentEvent> eventClass = event.getClass();
+                if (event instanceof StudentAddEvent || event instanceof StudentUpdateEvent) {
+                    studentList.add(source);
+                } else if (StudentDeleteEvent.class.equals(eventClass)) {
+                    studentList.remove(source);
+                }
+                updateStudentInfo();
+            });
         });
     }
 
     private void setManageOnClick() {
         b_manage.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, StudentManageActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(intent);
+        });
+    }
+
+    private void setSettingOnClick() {
+        b_setting.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(intent);
+        });
+    }
+
+    private void setAboutOnClick() {
+        b_about.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
         });
     }
@@ -73,13 +96,15 @@ public class MainActivity extends PrivilegeActivity {
     protected void initView() {
         setContentView(R.layout.activity_main);
         tv_totalCount = findViewById(R.id.tv_total);
-        ll_majors = findViewById(R.id.ll_majors);
+        rv_major = findViewById(R.id.rv_major);
         b_manage = findViewById(R.id.b_manage);
-        StudentManageComponent component = AndroidApplication.INSTANCE.APP.getComponent(StudentManageComponent.class);
-        studentList = component.getStudents();
+        b_about = findViewById(R.id.b_about);
+        b_setting = findViewById(R.id.b_setting);
     }
 
     private void updateStudentInfo() {
+        StudentManageComponent component = AndroidApplication.INSTANCE.APP.getComponent(StudentManageComponent.class);
+        studentList = component.getStudents();
         int totalStudents = studentList.size();
         Map<String, Integer> majorCountMap = new HashMap<>();
 
@@ -94,15 +119,15 @@ public class MainActivity extends PrivilegeActivity {
 
         tv_totalCount.setText("Total Students: " + totalStudents);
 
-        ll_majors.removeAllViews();
+        rv_major.removeAllViews();
 
         // 使用线性布局管理器
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        ll_majors.setLayoutManager(layoutManager);
+        rv_major.setLayoutManager(layoutManager);
 
 
         // 创建适配器并设置给 RecyclerView
         MajorAdapter mAdapter = new MajorAdapter(majorCountMap);
-        ll_majors.setAdapter(mAdapter);
+        rv_major.setAdapter(mAdapter);
     }
 }

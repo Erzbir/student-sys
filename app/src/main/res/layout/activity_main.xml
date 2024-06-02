@@ -9,7 +9,7 @@
     <ImageView
             android:id="@+id/backgroundImage"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="100dp"
             android:scaleType="centerCrop"
             android:src="@drawable/logo"
             android:layout_alignParentTop="true"/>
@@ -20,7 +20,7 @@
             android:text="@string/student_management_system"
             style="@style/TitleText"
             android:textColor="@color/black"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="5dp"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/backgroundImage" />
     <TextView
@@ -32,31 +32,51 @@
             android:layout_below="@id/tv_title"
             android:layout_centerHorizontal="true" />
     <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/ll_majors"
-            android:layout_width="match_parent"
-            android:layout_height="350dp"
+            android:id="@+id/rv_major"
+            android:layout_width="342dp"
+            android:layout_height="271dp"
             android:orientation="vertical"
             android:layout_below="@id/tv_total"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:layout_marginTop="16dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_marginTop="5dp"
             android:elevation="4dp"
             android:layout_marginBottom="5dp"
             android:clipToPadding="false">
     </androidx.recyclerview.widget.RecyclerView>
-
     <Button
             android:id="@+id/b_manage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/manage_students"
             style="@style/ButtonStyle"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@id/rv_major"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp" />
+    <Button
+            android:id="@+id/b_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/setting"
+            style="@style/ButtonStyle"
+            android:layout_below="@id/b_manage"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp" />
+    <Button
+            android:id="@+id/b_about"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about"
+            style="@style/ButtonStyle"
+            android:layout_below="@+id/b_setting"
+            android:layout_centerHorizontal="true"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+    />
 
 </RelativeLayout>

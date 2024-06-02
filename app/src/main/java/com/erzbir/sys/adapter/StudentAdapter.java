@@ -10,11 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.erzbir.event.GlobalEventChannel;
 import com.erzbir.sys.AndroidApplication;
 import com.erzbir.sys.R;
+import com.erzbir.sys.application.DefaultApplication;
 import com.erzbir.sys.component.StudentManageComponent;
 import com.erzbir.sys.entity.Student;
 import com.erzbir.sys.event.StudentAddEvent;
 import com.erzbir.sys.event.StudentDeleteEvent;
 import com.erzbir.sys.event.StudentEvent;
+import com.erzbir.sys.event.StudentUpdateEvent;
 
 import java.util.List;
 
@@ -24,7 +26,7 @@ import java.util.List;
  */
 public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentViewHolder> {
 
-    private final List<Student> studentList;
+    private List<Student> studentList;
     private final OnItemClickListener onItemClickListener;
 
     public interface OnItemClickListener {
@@ -47,23 +49,12 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
     public void onBindViewHolder(@NonNull StudentViewHolder holder, int position) {
         Student student = studentList.get(position);
         holder.bind(student, onItemClickListener);
-//        registerListener();
         holder.b_delete.setOnClickListener(v -> {
+            DefaultApplication.INSTANCE.dispatchEvent(new StudentDeleteEvent(student));
             StudentManageComponent component = AndroidApplication.INSTANCE.APP.getComponent(StudentManageComponent.class);
             component.remove(student);
             studentList.remove(position);
             notifyDataSetChanged();
-        });
-    }
-
-    private void registerListener() {
-        GlobalEventChannel.INSTANCE.subscribeAlways(StudentEvent.class, event -> {
-            Student student = event.getSource();
-            if (event instanceof StudentAddEvent) {
-                studentList.add(student);
-            } else if (event instanceof StudentDeleteEvent) {
-                studentList.remove(student);
-            }
         });
     }
 

@@ -15,7 +15,6 @@ import com.erzbir.sys.entity.Student;
 import com.erzbir.sys.event.StudentEvent;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 /**
  * @author Erzbir
@@ -38,8 +37,18 @@ public class StudentManageActivity extends PrivilegeActivity {
         studentAdapter = new StudentAdapter(students, student -> {
             Intent intent = new Intent(StudentManageActivity.this, StudentDetailActivity.class);
             intent.putExtra("student", student);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
 //            finish();
+        });
+        GlobalEventChannel.INSTANCE.subscribeAlways(StudentEvent.class, event -> {
+            studentAdapter = new StudentAdapter(AndroidApplication.INSTANCE.APP.getComponent(StudentManageComponent.class).getStudents(), student -> {
+                Intent intent = new Intent(StudentManageActivity.this, StudentDetailActivity.class);
+                intent.putExtra("student", student);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
+//            finish();
+            });
         });
         rv_students.setAdapter(studentAdapter);
         b_add = findViewById(R.id.b_add);
@@ -74,8 +83,8 @@ public class StudentManageActivity extends PrivilegeActivity {
     private void setCancelOnClick() {
         b_cancel.setOnClickListener(v -> {
             Intent intent = new Intent(StudentManageActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
-            finish();
         });
     }
 }

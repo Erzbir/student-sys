@@ -6,9 +6,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import com.erzbir.sys.AndroidApplication;
 import com.erzbir.sys.R;
+import com.erzbir.sys.application.DefaultApplication;
 import com.erzbir.sys.common.PrivilegeActivity;
 import com.erzbir.sys.component.StudentManageComponent;
 import com.erzbir.sys.entity.Student;
+import com.erzbir.sys.event.StudentAddEvent;
+import com.erzbir.sys.event.StudentUpdateEvent;
 import com.erzbir.sys.view.StudentManageActivity;
 
 /**
@@ -66,19 +69,23 @@ public class StudentDetailActivity extends PrivilegeActivity {
         b_save.setOnClickListener(v -> {
             StudentManageComponent component = AndroidApplication.INSTANCE.APP.getComponent(StudentManageComponent.class);
             int i = getIntent().getIntExtra("add", 0);
+            Student newStudent = new Student.Builder()
+                    .name(et_name.getText().toString())
+                    .gender(sp_gender.getSelectedItem().toString())
+                    .major(et_major.getText().toString())
+                    .grade(et_grade.getText().toString())
+                    .build();
             if (i == 1) {
-                Student newStudent = new Student.Builder()
-                        .id(Long.parseLong(et_id.getText().toString()))
-                        .name(et_name.getText().toString())
-                        .gender(sp_gender.getSelectedItem().toString())
-                        .major(et_major.getText().toString())
-                        .grade(et_grade.getText().toString())
-                        .build();
+                DefaultApplication.INSTANCE.dispatchEvent(new StudentAddEvent(newStudent));
+                newStudent.setId(Long.parseLong(et_id.getText().toString()));
                 component.add(newStudent);
             } else {
-                component.update(student);
+                DefaultApplication.INSTANCE.dispatchEvent(new StudentUpdateEvent(newStudent));
+                newStudent.setId(student.getId());
+                component.update(newStudent);
             }
             Intent intent = new Intent(StudentDetailActivity.this, StudentManageActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
             finish();
         });
@@ -87,6 +94,7 @@ public class StudentDetailActivity extends PrivilegeActivity {
     private void setCancelOnClick() {
         b_cancel.setOnClickListener(v -> {
             Intent intent = new Intent(StudentDetailActivity.this, StudentManageActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
             finish();
         });

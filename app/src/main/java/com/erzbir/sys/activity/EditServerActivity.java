@@ -43,7 +43,6 @@ public class EditServerActivity extends AppActivity {
 
     private void setSaveOnclick() {
         b_save.setOnClickListener(view -> {
-
             SharedPreferences preferences = getSharedPreferences("setting", 0);
             SharedPreferences.Editor editor = preferences.edit();
             String server = et_server.getText().toString();

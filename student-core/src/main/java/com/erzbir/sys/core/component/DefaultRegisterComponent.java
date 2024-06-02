@@ -27,7 +27,6 @@ public class DefaultRegisterComponent extends AbstractComponent implements Regis
     @Override
     public boolean register(User user) {
         Response<?> response = client.register(new AddReqs.AddUser(user));
-        DefaultApplication.INSTANCE.dispatchEvent(new UserRegisterEvent(user));
         return response.getSuccess();
     }
 }

@@ -35,7 +35,7 @@ public class AccessChangeActivity extends PrivilegeActivity {
     }
 
     protected void initOnClickCallback() {
-        setConfirmOnClick();
+        setChangeOnClick();
         setCancelOnClick();
     }
 
@@ -49,7 +49,7 @@ public class AccessChangeActivity extends PrivilegeActivity {
 
     }
 
-    private void setConfirmOnClick() {
+    private void setChangeOnClick() {
         b_change.setOnClickListener(v -> {
             User user = SavedUser.getUser();
             String oldPassword = et_oldPassword.getText().toString();

@@ -8,10 +8,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.erzbir.sys.AndroidApplication;
 import com.erzbir.sys.R;
+import com.erzbir.sys.application.DefaultApplication;
 import com.erzbir.sys.common.AppActivity;
 import com.erzbir.sys.component.LoginComponent;
 import com.erzbir.sys.component.RegisterComponent;
 import com.erzbir.sys.entity.User;
+import com.erzbir.sys.event.UserLoginEvent;
+import com.erzbir.sys.event.UserRegisterEvent;
 import com.erzbir.sys.util.SavedUser;
 
 /**
@@ -51,9 +54,10 @@ public class AccessActivity extends AppActivity {
         et_username = findViewById(R.id.et_username);
         et_password = findViewById(R.id.et_password);
         cb_remember = findViewById(R.id.cb_remember);
-        SharedPreferences setting = getSharedPreferences("setting", 0);
-        String server = setting.getString("server", "localhost:8080");
-        AndroidApplication.INSTANCE.APP.getSetting().setServer(server);
+        remember();
+    }
+
+    private void remember() {
         SharedPreferences user = getSharedPreferences("user", 0);
         boolean rem = user.getBoolean(SavedUser.REM_PASSWORD_KEY, false);
         if (rem) {
@@ -75,6 +79,7 @@ public class AccessActivity extends AppActivity {
         b_register.setOnClickListener(view -> {
             RegisterComponent registerComponent = AndroidApplication.INSTANCE.APP.getComponent(RegisterComponent.class);
             User user = new User.Builder().username(et_username.getText().toString()).password(et_password.getText().toString()).build();
+            DefaultApplication.INSTANCE.dispatchEvent(new UserRegisterEvent(user));
             registerComponent.register(user);
         });
     }
@@ -92,6 +97,7 @@ public class AccessActivity extends AppActivity {
         b_login.setOnClickListener(view -> {
             LoginComponent loginComponent = AndroidApplication.INSTANCE.APP.getComponent(LoginComponent.class);
             User user = new User.Builder().username(et_username.getText().toString()).password(et_password.getText().toString()).build();
+            DefaultApplication.INSTANCE.dispatchEvent(new UserLoginEvent(user));
             if (loginComponent.login(user)) {
                 SharedPreferences preferences = getSharedPreferences("user", 0);
                 SharedPreferences.Editor editor = preferences.edit();

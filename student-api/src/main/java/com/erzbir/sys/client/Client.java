@@ -57,7 +57,10 @@ public class Client {
         try (okhttp3.Response response = call.execute()) {
             ResponseBody responseBody = response.body();
             if (responseBody != null) {
-                return JSONUtil.toBean(responseBody.string(), Response.class);
+                String string = responseBody.string();
+                if (StrUtil.isNotBlank(string)) {
+                    return JSONUtil.toBean(string, Response.class);
+                }
             }
 
         } catch (Exception e) {

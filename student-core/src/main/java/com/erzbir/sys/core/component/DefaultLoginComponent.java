@@ -24,9 +24,6 @@ public class DefaultLoginComponent extends AbstractComponent implements LoginCom
         String data = resp.getData();
         if (data == null || data.isEmpty()) return false;
         boolean blank = data.isBlank();
-        if (!blank) {
-            DefaultApplication.INSTANCE.dispatchEvent(new UserLoginEvent(user));
-        }
         return !blank;
     }
 

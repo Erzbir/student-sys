@@ -13,7 +13,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.erzbir.sys.R;
+import com.erzbir.sys.entity.Student;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MajorAdapter extends RecyclerView.Adapter<MajorAdapter.ViewHolder> {
