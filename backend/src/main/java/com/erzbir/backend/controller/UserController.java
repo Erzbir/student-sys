@@ -33,6 +33,9 @@ public class UserController {
 
     @PostMapping("/register")
     public Object register(@RequestBody User user) {
+        if (userService.getById(user.getUsername()) != null) {
+            return Response.error("Username is already in use");
+        }
         return Response.ok(userService.save(user));
     }
 }

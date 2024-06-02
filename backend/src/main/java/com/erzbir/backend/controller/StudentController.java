@@ -32,6 +32,9 @@ public class StudentController {
 
     @PostMapping("/add")
     public Object add(@RequestBody Student student) {
+        if (studentService.getById(student.getId()) != null) {
+            return Response.error("Student already exists");
+        }
         return Response.ok(studentService.save(student));
     }
 
