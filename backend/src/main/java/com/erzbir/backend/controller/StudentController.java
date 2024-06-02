@@ -1,6 +1,6 @@
 package com.erzbir.backend.controller;
 
-import com.erzbir.backend.annotation.StringResponse;
+import com.erzbir.backend.annotation.JsonResponse;
 import com.erzbir.backend.entity.Student;
 import com.erzbir.backend.service.StudentService;
 import com.erzbir.backend.util.Response;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping(value = "/student", produces = "application/json")
-@StringResponse
+@JsonResponse
 public class StudentController {
     private final StudentService studentService;
 

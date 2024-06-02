@@ -1,7 +1,7 @@
 package com.erzbir.backend.controller;
 
 import cn.hutool.json.JSONUtil;
-import com.erzbir.backend.annotation.StringResponse;
+import com.erzbir.backend.annotation.JsonResponse;
 import com.erzbir.backend.entity.User;
 import com.erzbir.backend.service.UserService;
 import com.erzbir.backend.util.JWTUtil;
@@ -24,7 +24,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping(value = "/auth", produces = "application/json")
-@StringResponse
+@JsonResponse
 public class AuthController {
     private final UserService userService;
     private final HttpServletRequest request;

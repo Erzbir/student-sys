@@ -12,13 +12,13 @@ import org.springframework.stereotype.Component;
  */
 @Aspect
 @Component
-public class StringResponseAspect {
-    @Around("@annotation(com.erzbir.backend.annotation.StringResponse)")
+public class JsonResponseAspect {
+    @Around("@annotation(com.erzbir.backend.annotation.JsonResponse)")
     public Object handleMethod(ProceedingJoinPoint joinPoint) throws Throwable {
         return stringResponse(joinPoint);
     }
 
-    @Around("@within(com.erzbir.backend.annotation.StringResponse)")
+    @Around("@within(com.erzbir.backend.annotation.JsonResponse)")
     public Object handleClass(ProceedingJoinPoint joinPoint) throws Throwable {
         return stringResponse(joinPoint);
     }
