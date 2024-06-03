@@ -33,7 +33,6 @@ public abstract class AbstractApplication implements Application, ApplicationEve
     }
 
     public void loadComponents(Set<Class<?>> classes) {
-//        Set<Class<?>> componentClasses = ClassScanner.scanAllPackageByAnnotation("com.erzbir.student", Component.class);
         classes.stream().filter(c -> c.isAnnotationPresent(Component.class) && IComponent.class.isAssignableFrom(c)).forEach(componentClass -> {
             try {
                 IComponent component = (IComponent) componentClass.getConstructor().newInstance();

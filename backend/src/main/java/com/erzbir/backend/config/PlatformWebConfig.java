@@ -17,10 +17,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @Data: 2024/5/29 10:46
  */
 @Configuration
-public class PlatformMvcConfig implements WebMvcConfigurer {
+public class PlatformWebConfig implements WebMvcConfigurer {
     private final UserService userService;
 
-    public PlatformMvcConfig(UserService userService) {
+    public PlatformWebConfig(UserService userService) {
         this.userService = userService;
     }
 

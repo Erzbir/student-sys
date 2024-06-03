@@ -8,6 +8,7 @@ dependencies {
     implementation(project(":student-api"))
     implementation(project(":dispatcher-api"))
     runtimeOnly(project(":dispatcher-core"))
+    implementation("cn.hutool:hutool-jwt:5.8.27")
 }
 
 tasks.test {

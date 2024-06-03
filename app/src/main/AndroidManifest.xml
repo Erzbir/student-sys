@@ -30,10 +30,6 @@
 
         </activity>
 
-        <activity android:name=".view.DetailActivity" android:exported="true">
-
-        </activity>
-
         <activity android:name=".view.SettingActivity" android:exported="true">
 
         </activity>
@@ -43,15 +39,6 @@
         </activity>
 
         <activity android:name=".view.StudentManageActivity" android:exported="true">
-
-        </activity>
-
-        <activity android:name=".activity.AddStudentActivity" android:exported="true">
-
-        </activity>
-
-
-        <activity android:name=".activity.EditStudentActivity" android:exported="true">
 
         </activity>
 

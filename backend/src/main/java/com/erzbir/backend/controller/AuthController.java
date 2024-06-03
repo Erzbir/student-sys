@@ -2,13 +2,13 @@ package com.erzbir.backend.controller;
 
 import cn.hutool.json.JSONUtil;
 import com.erzbir.backend.annotation.JsonResponse;
+import com.erzbir.backend.context.LoginUser;
 import com.erzbir.backend.entity.User;
 import com.erzbir.backend.service.UserService;
 import com.erzbir.backend.util.JWTUtil;
 import com.erzbir.backend.util.Response;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +21,6 @@ import java.util.Map;
  * @author Erzbir
  * @Data: 2024/5/29 08:54
  */
-@Slf4j
 @RestController
 @RequestMapping(value = "/auth", produces = "application/json")
 @JsonResponse
@@ -45,6 +44,7 @@ public class AuthController {
         Map<String, String> map = new HashMap<>();
         map.put("token", token);
         session.setAttribute("username", user.getUsername());
+        LoginUser.setUser(user);
         return Response.ok(JSONUtil.toJsonStr(map));
     }
 }
