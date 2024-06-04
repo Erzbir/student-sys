@@ -25,6 +25,7 @@ public class DefaultStudentManageComponent extends AbstractComponent implements 
 
     @Override
     public void add(Student student) {
+        students.add(student);
         client.addStudent(new AddReqs.AddStudent(student));
     }
 
