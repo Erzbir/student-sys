@@ -30,17 +30,22 @@ public class DefaultStudentManageComponent extends AbstractComponent implements 
 
     @Override
     public void remove(Student student) {
+        students.remove(student);
         client.deleteStudent(new DeleteReqs.DeleteStudent(student.getId()));
     }
 
     @Override
     public boolean contains(Student student) {
+        if (students.contains(student)) {
+            return true;
+        }
         Response<Student> response = client.queryStudentById(new QueryReqs.QueryStudentById(student.getId()));
         return !response.getData().getName().isEmpty();
     }
 
     @Override
     public void update(Student student) {
+        students.add(student);
         client.updateStudent(new UpdateReqs.UpdateStudent(student));
     }
 
