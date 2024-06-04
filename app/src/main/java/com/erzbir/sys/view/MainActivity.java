@@ -12,13 +12,9 @@ import com.erzbir.sys.adapter.MajorAdapter;
 import com.erzbir.sys.common.PrivilegeActivity;
 import com.erzbir.sys.component.StudentManageComponent;
 import com.erzbir.sys.entity.Student;
-import com.erzbir.sys.event.StudentAddEvent;
-import com.erzbir.sys.event.StudentDeleteEvent;
 import com.erzbir.sys.event.StudentEvent;
-import com.erzbir.sys.event.StudentUpdateEvent;
 import com.erzbir.sys.util.MethodLocker;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +29,6 @@ public class MainActivity extends PrivilegeActivity {
     private Button b_manage;
     private Button b_setting;
     private Button b_about;
-    private List<Student> studentList = new ArrayList<>();
 
     protected void initOnClickCallback() {
         setManageOnClick();
@@ -56,15 +51,7 @@ public class MainActivity extends PrivilegeActivity {
 
     private void registerListener() {
         GlobalEventChannel.INSTANCE.subscribeAlways(StudentEvent.class, event -> {
-            runOnUiThread(() -> {
-                Student source = event.getSource();
-                if (event instanceof StudentAddEvent || event instanceof StudentUpdateEvent) {
-                    studentList.add(source);
-                } else if (event instanceof StudentDeleteEvent) {
-                    studentList.remove(source);
-                }
-                updateStudentInfo();
-            });
+            runOnUiThread(this::updateStudentInfo);
         });
     }
 
@@ -103,7 +90,7 @@ public class MainActivity extends PrivilegeActivity {
 
     private void updateStudentInfo() {
         StudentManageComponent component = AndroidApplication.INSTANCE.APP.getComponent(StudentManageComponent.class);
-        studentList = component.getStudents();
+        List<Student> studentList = component.getStudents();
         int totalStudents = studentList.size();
         Map<String, Integer> majorCountMap = new HashMap<>();
 
