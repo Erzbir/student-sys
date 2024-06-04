@@ -102,17 +102,10 @@ public class MainActivity extends PrivilegeActivity {
                 majorCountMap.put(major, 1);
             }
         }
-
         tv_totalCount.setText("Total Students: " + totalStudents);
-
         rv_major.removeAllViews();
-
-        // 使用线性布局管理器
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rv_major.setLayoutManager(layoutManager);
-
-
-        // 创建适配器并设置给 RecyclerView
         MajorAdapter mAdapter = new MajorAdapter(majorCountMap);
         rv_major.setAdapter(mAdapter);
     }
