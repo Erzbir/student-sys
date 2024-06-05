@@ -35,7 +35,7 @@ public class AuthController {
     public Response<String> login(@RequestBody User user) {
         Boolean auth = userService.auth(user.getUsername(), user.getPassword());
         if (!auth) {
-            return Response.error("auth failed");
+            return Response.error("Auth failed");
         }
         HttpSession session = request.getSession();
         String token = JWTUtil.createToken(User.builder().username(user.getUsername()).build(), 10000);

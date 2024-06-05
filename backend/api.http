@@ -1,0 +1,73 @@
+POST http://localhost:8090/user/register
+Content-Type: application/json
+
+{
+  "username": "admin2",
+  "password": "admin2"
+}
+
+###
+POST http://localhost:8090/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin2",
+  "password": "admin2"
+}
+
+> {%
+    client.global.set("token", JSON.parse(response.body.data).token);
+%}
+
+###
+GET http://localhost:8090/student/list
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+###
+POST http://localhost:8090/student/add
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "id": 1,
+  "name": "endymion",
+  "gender": "m",
+  "major": "Computer Science",
+  "grade": "2024"
+}
+
+###
+POST http://localhost:8090/student/update
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "id": 1,
+  "name": "ace",
+  "gender": "m",
+  "major": "Computer Science",
+  "grade": "2024"
+}
+
+###
+GET http://localhost:8090/user/get?username=admin
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+###
+GET http://localhost:8090/student/list
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+###
+GET http://localhost:8090/user/list
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+###
+GET http://localhost:8090/user/get?
+    username=admin
+Content-Type: application/json
+Authorization: Bearer {{token}}
