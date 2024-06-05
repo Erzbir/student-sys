@@ -129,8 +129,7 @@ public class Client {
         Gson gson = new Gson();
         List<Student> list = gson.fromJson(jsonStr, new TypeToken<List<Student>>() {
         }.getType());
-        Response<List<Student>> lResponse = Response.ok(list, response.getMsg());
-        return lResponse;
+        return Response.ok(list, response.getMsg());
     }
 
     public Response<?> register(AddReqs.AddUser addUserReq) {
@@ -161,8 +160,7 @@ public class Client {
         Gson gson = new Gson();
         List<User> list = gson.fromJson(jsonStr, new TypeToken<List<User>>() {
         }.getType());
-        Response<List<User>> lResponse = Response.ok(list, response.getMsg());
-        return lResponse;
+        return Response.ok(list, response.getMsg());
     }
 
 
