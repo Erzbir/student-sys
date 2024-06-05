@@ -1,10 +1,11 @@
 package com.erzbir.backend.controller;
 
-import com.erzbir.backend.annotation.JsonResponse;
 import com.erzbir.backend.entity.Student;
 import com.erzbir.backend.service.StudentService;
 import com.erzbir.backend.util.Response;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author Erzbir
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping(value = "/student", produces = "application/json")
-@JsonResponse
+//@Response
 public class StudentController {
     private final StudentService studentService;
 
@@ -21,17 +22,17 @@ public class StudentController {
     }
 
     @GetMapping("/list")
-    public Object list() {
-        return Response.ok(studentService.list());
+    public List<Student> list() {
+        return studentService.list();
     }
 
     @GetMapping("/get")
-    public Object get(@RequestParam Long id) {
+    public Response<Student> get(@RequestParam Long id) {
         return Response.ok(studentService.getById(id));
     }
 
     @PostMapping("/add")
-    public Object add(@RequestBody Student student) {
+    public Response<Boolean> add(@RequestBody Student student) {
         if (studentService.getById(student.getId()) != null) {
             return Response.error("Student already exists");
         }
@@ -39,12 +40,12 @@ public class StudentController {
     }
 
     @PostMapping("/update")
-    public Object update(@RequestBody Student student) {
+    public Response<Boolean> update(@RequestBody Student student) {
         return Response.ok(studentService.updateById(student));
     }
 
     @GetMapping("/delete")
-    public Object delete(@RequestParam Long id) {
+    public Response<Boolean> delete(@RequestParam Long id) {
         return Response.ok(studentService.removeById(id));
     }
 }

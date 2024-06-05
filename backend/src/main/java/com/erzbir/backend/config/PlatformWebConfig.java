@@ -28,8 +28,8 @@ public class PlatformWebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         AccessInterceptor accessInterceptor = new AccessInterceptor(userService);
         HeaderInterceptor headerInterceptor = new HeaderInterceptor();
-        registry.addInterceptor(headerInterceptor).addPathPatterns("/**");
-        registry.addInterceptor(accessInterceptor).addPathPatterns("/**");
+//        registry.addInterceptor(headerInterceptor).addPathPatterns("/**");
+//        registry.addInterceptor(accessInterceptor).addPathPatterns("/**");
     }
 
     static class HeaderInterceptor implements HandlerInterceptor {

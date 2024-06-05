@@ -1,6 +1,5 @@
 package com.erzbir.backend.controller;
 
-import com.erzbir.backend.annotation.JsonResponse;
 import com.erzbir.backend.entity.User;
 import com.erzbir.backend.service.UserService;
 import com.erzbir.backend.util.Response;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/user", produces = "application/json")
-@JsonResponse
 public class RegisterController {
     private final UserService userService;
 
@@ -25,7 +23,7 @@ public class RegisterController {
     }
 
     @PostMapping("/register")
-    public Object register(@RequestBody User user) {
+    public Response<Boolean> register(@RequestBody User user) {
         if (userService.getById(user.getUsername()) != null) {
             return Response.error("Username is already in use");
         }

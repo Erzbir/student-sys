@@ -1,7 +1,6 @@
 package com.erzbir.backend.controller;
 
 import cn.hutool.json.JSONUtil;
-import com.erzbir.backend.annotation.JsonResponse;
 import com.erzbir.backend.context.LoginUser;
 import com.erzbir.backend.entity.User;
 import com.erzbir.backend.service.UserService;
@@ -23,7 +22,6 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping(value = "/auth", produces = "application/json")
-@JsonResponse
 public class AuthController {
     private final UserService userService;
     private final HttpServletRequest request;
@@ -34,10 +32,10 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public Object login(@RequestBody User user) {
+    public Response<String> login(@RequestBody User user) {
         Boolean auth = userService.auth(user.getUsername(), user.getPassword());
         if (!auth) {
-            return Response.error("认证失败");
+            return Response.error("auth failed");
         }
         HttpSession session = request.getSession();
         String token = JWTUtil.createToken(User.builder().username(user.getUsername()).build(), 10000);
