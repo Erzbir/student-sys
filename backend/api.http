@@ -11,8 +11,8 @@ POST http://localhost:8090/auth/login
 Content-Type: application/json
 
 {
-  "username": "admin2",
-  "password": "admin2"
+  "username": "admin",
+  "password": "admin"
 }
 
 > {%
@@ -51,12 +51,28 @@ Authorization: Bearer {{token}}
 }
 
 ###
-GET http://localhost:8090/user/get?username=admin
+POST http://localhost:8090/user/update
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "username": "admin2",
+  "password": "12414"
+}
+
+###
+GET http://localhost:8090/user/delete?
+    username=admin2
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 ###
-GET http://localhost:8090/student/list
+GET http://localhost:8090/student/get?id=1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+###
+GET http://localhost:8090/user/get?username=admin
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -64,7 +80,6 @@ Authorization: Bearer {{token}}
 GET http://localhost:8090/user/list
 Content-Type: application/json
 Authorization: Bearer {{token}}
-
 
 ###
 GET http://localhost:8090/user/get?

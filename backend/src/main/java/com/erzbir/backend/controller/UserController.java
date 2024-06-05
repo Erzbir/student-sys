@@ -3,10 +3,7 @@ package com.erzbir.backend.controller;
 import com.erzbir.backend.entity.User;
 import com.erzbir.backend.service.UserService;
 import com.erzbir.backend.util.Response;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,5 +28,15 @@ public class UserController {
     @GetMapping("/get")
     public Response<User> get(@RequestParam String username) {
         return Response.ok(userService.getById(username));
+    }
+
+    @PostMapping("/update")
+    public Response<Boolean> update(@RequestBody User user) {
+        return Response.ok(userService.updateById(user));
+    }
+
+    @GetMapping("/delete")
+    public Response<Boolean> delete(@RequestParam String username) {
+        return Response.ok(userService.removeById(username));
     }
 }
