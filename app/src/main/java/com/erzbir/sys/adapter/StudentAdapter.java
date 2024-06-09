@@ -53,7 +53,7 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
             DefaultApplication.INSTANCE.dispatchEvent(new StudentDeleteEvent(student));
             StudentManageComponent component = AndroidApplication.INSTANCE.APP.getComponent(StudentManageComponent.class);
             component.remove(student);
-            studentList.remove(position);
+            studentList.remove(student);
             notifyDataSetChanged();
         });
     }

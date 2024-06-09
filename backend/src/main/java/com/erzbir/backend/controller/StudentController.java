@@ -22,8 +22,8 @@ public class StudentController {
     }
 
     @GetMapping("/list")
-    public List<Student> list() {
-        return studentService.list();
+    public Response<List<Student>> list() {
+        return Response.ok(studentService.list());
     }
 
     @GetMapping("/get")

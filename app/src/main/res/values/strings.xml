@@ -40,4 +40,5 @@
     <string name="gender_2">Gender:</string>
     <string name="major_2">Major:</string>
     <string name="grade_2">Grade:</string>
+    <string name="filter">filter</string>
 </resources>

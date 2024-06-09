@@ -1,5 +1,6 @@
 package com.erzbir.sys.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.Button;
@@ -17,6 +18,7 @@ import com.erzbir.sys.view.SettingActivity;
  * @since 2024/5/31
  */
 public class EditServerActivity extends AppActivity {
+    private Context lastContext;
     private EditText et_server;
     private TextView tv_server;
     private Button b_save;
@@ -59,6 +61,7 @@ public class EditServerActivity extends AppActivity {
     private void setCancelOnClick() {
         b_cancel.setOnClickListener(v -> {
             Intent intent = new Intent(EditServerActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
             finish();
         });
