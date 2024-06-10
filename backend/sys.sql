@@ -1,4 +1,5 @@
 CREATE DATABASE IF NOT EXISTS `stu_sys`;
+USE `stu_sys`;
 CREATE TABLE IF NOT EXISTS `stu`
 (
     `id`     BIGINT PRIMARY KEY,
