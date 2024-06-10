@@ -7,16 +7,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.erzbir.event.GlobalEventChannel;
 import com.erzbir.sys.AndroidApplication;
 import com.erzbir.sys.R;
 import com.erzbir.sys.application.DefaultApplication;
 import com.erzbir.sys.component.StudentManageComponent;
 import com.erzbir.sys.entity.Student;
-import com.erzbir.sys.event.StudentAddEvent;
 import com.erzbir.sys.event.StudentDeleteEvent;
-import com.erzbir.sys.event.StudentEvent;
-import com.erzbir.sys.event.StudentUpdateEvent;
 
 import java.util.List;
 
@@ -53,7 +49,6 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
             DefaultApplication.INSTANCE.dispatchEvent(new StudentDeleteEvent(student));
             StudentManageComponent component = AndroidApplication.INSTANCE.APP.getComponent(StudentManageComponent.class);
             component.remove(student);
-            studentList.remove(student);
             notifyDataSetChanged();
         });
     }

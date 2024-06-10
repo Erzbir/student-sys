@@ -86,6 +86,9 @@ public class StudentManageActivity extends PrivilegeActivity {
                     if (StrUtil.isNotBlank(gender)) {
                         flag &= student.getGender().equals(gender);
                     }
+                    if (StrUtil.isBlank(id) && StrUtil.isBlank(major)) {
+                        flag = true;
+                    }
                     return flag;
                 }).toList();
         updateInfo0(filteredList);
