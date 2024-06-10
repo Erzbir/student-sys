@@ -32,7 +32,6 @@ public class StudentManageActivity extends PrivilegeActivity {
     private Spinner sp_gender;
     private Button b_filter;
     private Button b_add;
-    private Button b_delete;
     private Button b_cancel;
 
     protected void initView() {
