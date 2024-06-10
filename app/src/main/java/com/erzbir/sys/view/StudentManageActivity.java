@@ -92,9 +92,7 @@ public class StudentManageActivity extends PrivilegeActivity {
     }
 
     private void registerListener() {
-        GlobalEventChannel.INSTANCE.subscribeAlways(StudentEvent.class, event -> {
-            runOnUiThread(this::updateInfo);
-        });
+        GlobalEventChannel.INSTANCE.subscribeAlways(StudentEvent.class, event -> runOnUiThread(this::updateInfo));
     }
 
     protected void initOnClickCallback() {
